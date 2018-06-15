@@ -41,7 +41,7 @@ class LocationsTable extends Table
         parent::initialize($config);
 
         $this->setTable('locations');
-        $this->setDisplayField('id');
+        $this->setDisplayField('location_name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');

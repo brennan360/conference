@@ -8,26 +8,50 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Conferences'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Companies'), ['controller' => 'Companies', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Company'), ['controller' => 'Companies', 'action' => 'add']) ?></li>
+		<li><hr></li>
         <li><?= $this->Html->link(__('List Locations'), ['controller' => 'Locations', 'action' => 'index']) ?></li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Location'), ['controller' => 'Locations', 'action' => 'add']) ?></li>
+<?php
+	}
+?>
     </ul>
 </nav>
 <div class="conferences form large-9 medium-8 columns content">
     <?= $this->Form->create($conference) ?>
     <fieldset>
         <legend><?= __('Add Conference') ?></legend>
+		<div class="container" >
+			<label for="file">Main Page Image</label>
+            <input type="file" name="file" id="file">
+            
+            <!-- Drag and Drop container-->
+            <div class="upload-area" id="uploadfile">
+                <h1>Drag and Drop file here<br/>Or<br/>Click to select file</h1>
+            </div>
+        </div>
+		<div class="container1" >
+			<label for="file1">Icon Image</label>
+            <input type="file1" name="file" id="file1">
+            
+            <!-- Drag and Drop container-->
+            <div class="upload-area1" id="uploadfile1">
+                <h1>Drag and Drop Icon file here<br/>Or<br/>Click to select file</h1>
+            </div>
+        </div>
         <?php
             echo $this->Form->control('conference_title');
             echo $this->Form->control('start_date');
             echo $this->Form->control('end_date');
-            echo $this->Form->control('company_id', ['options' => $companies, 'empty' => true]);
+            echo $this->Form->hidden('company_id', ['options' => $companies, 'value' => $company_id]);
             echo $this->Form->control('location_id', ['options' => $locations]);
             echo $this->Form->control('is_active');
             echo $this->Form->control('conference_description');
-            echo $this->Form->control('main_page_image');
-            echo $this->Form->control('icon_image');
+            echo $this->Form->hidden('main_page_image');
+            echo $this->Form->hidden('icon_image');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

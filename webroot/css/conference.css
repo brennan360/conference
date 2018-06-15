@@ -1,0 +1,80 @@
+/* IMAGES IN VIEW TABLES */
+table.vertical-table tr td img {
+    float: left;
+}
+
+
+/* IMAGE UPLOAD */
+.upload-area{
+    width: 400px;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin: 0;
+    margin-top: 0;
+    text-align: center;
+    overflow: auto;
+	background-color: #FAFAFA;
+}
+
+.upload-area1{
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin: 0;
+    margin-top: 0;
+    text-align: center;
+    overflow: auto;
+	background-color: #FAFAFA;
+}
+
+.upload-area:hover{
+    cursor: pointer;
+}
+
+.upload-area1:hover{
+    cursor: pointer;
+}
+
+.upload-area h1{
+    text-align: center;
+    line-height: 70px;
+	color: #4d4d4d;
+    font-size: 0.875rem;
+    font-weight: normal;
+    line-height: 1.5;
+}
+.upload-area1 h1{
+    text-align: center;
+    line-height: 10px;
+	color: #4d4d4d;
+    font-size: 0.675rem;
+    font-weight: normal;
+    line-height: 1;
+}
+
+#file{
+    display: none;
+}
+
+#file1{
+    display: none;
+}
+
+/* Thumbnail */
+.thumbnail{
+    width: 80px;
+    height: 80px;
+    padding: 2px;
+    border: 2px solid lightgray;
+    border-radius: 3px;
+    float: left;
+}
+
+.size{
+    font-size:12px;
+}
+
+
+

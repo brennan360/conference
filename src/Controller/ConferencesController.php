@@ -20,12 +20,25 @@ class ConferencesController extends AppController
      */
     public function index()
     {
+        $company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
         $this->paginate = [
             'contain' => ['Companies', 'Locations']
         ];
+		if ($permission_id == '0')
+		{
+        	$conferences = $this->paginate($this->Conferences->find());
+		} 
+		else
+		{
+        	$conferences = $this->paginate($this->Conferences->findByCompanyId($company_id));
+		} 
+
         $conferences = $this->paginate($this->Conferences);
 
         $this->set(compact('conferences'));
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**
@@ -51,6 +64,9 @@ class ConferencesController extends AppController
      */
     public function add()
     {
+        $company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
         $conference = $this->Conferences->newEntity();
         if ($this->request->is('post')) {
             $conference = $this->Conferences->patchEntity($conference, $this->request->getData());
@@ -62,8 +78,11 @@ class ConferencesController extends AppController
             $this->Flash->error(__('The conference could not be saved. Please, try again.'));
         }
         $companies = $this->Conferences->Companies->find('list', ['limit' => 200]);
-        $locations = $this->Conferences->Locations->find('list', ['limit' => 200]);
+        $locations = $this->Conferences->Locations->find('list', ['limit' => 200])->where(['company_id ' => $company_id]);
         $this->set(compact('conference', 'companies', 'locations'));
+
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**
@@ -75,6 +94,9 @@ class ConferencesController extends AppController
      */
     public function edit($id = null)
     {
+        $company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
         $conference = $this->Conferences->get($id, [
             'contain' => []
         ]);
@@ -87,9 +109,11 @@ class ConferencesController extends AppController
             }
             $this->Flash->error(__('The conference could not be saved. Please, try again.'));
         }
-        $companies = $this->Conferences->Companies->find('list', ['limit' => 200]);
-        $locations = $this->Conferences->Locations->find('list', ['limit' => 200]);
+        $companies = $this->Conferences->Companies->find('list', ['limit' => 200])->where(['id =' => $company_id]);;
+        $locations = $this->Conferences->Locations->find('list', ['limit' => 200])->where(['company_id =' => $company_id]);;
         $this->set(compact('conference', 'companies', 'locations'));
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**

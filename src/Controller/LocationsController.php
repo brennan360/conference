@@ -20,12 +20,24 @@ class LocationsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
+		$this->paginate = [
             'contain' => ['States', 'Countries']
         ];
-        $locations = $this->paginate($this->Locations);
+		
+		if ($permission_id == '0')
+		{
+        	$locations = $this->paginate($this->Locations->find());
+		} 
+		else
+		{
+        	$locations = $this->paginate($this->Locations->findByCompanyId($company_id));
+		} 
 
         $this->set(compact('locations'));
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**
@@ -37,11 +49,40 @@ class LocationsController extends AppController
      */
     public function view($id = null)
     {
+		$thisUserId = $this->Auth->user('id');
+		
+		$company_id = $this->Auth->user('company_id');
+		
+		$permissionLevel = $this->Auth->user('permission_id');
+
         $location = $this->Locations->get($id, [
-            'contain' => ['States', 'Countries', 'Conferences', 'LocationFloorplans', 'LocationRoomNames']
+            'contain' => ['States', 'Countries', 'Conferences', 'LocationFloorplans', 'LocationRoomNames', 'Companies']
         ]);
 
-        $this->set('location', $location);
+		if ($permissionLevel == 0 )
+		{
+
+		} elseif ($permissionLevel <= 20 )
+		{
+			if ($location->company_id != $company_id)
+			{
+				$location = null;
+				$this->Flash->error(__('That location is not associated with your company.'));
+				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($thisUserId != $id)
+			{
+				$location = null;
+				$this->Flash->error(__('You are not authorized to view that location.'));
+				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+			}
+		}
+
+		$this->set('location', $location);
+		$this->set('permissionLevel', $permissionLevel);
     }
 
     /**
@@ -51,7 +92,27 @@ class LocationsController extends AppController
      */
     public function add()
     {
-        $location = $this->Locations->newEntity();
+        $company_id = $this->Auth->user('company_id');
+
+		$permissionLevel = $this->Auth->user('permission_id');
+
+		if ($permissionLevel == 0 )
+		{
+		}
+		elseif ($permissionLevel <= 10 )
+		{
+		}
+		else
+		{
+			if ($permissionLevel <= 20)
+			{
+				$location = null;
+				$this->Flash->error(__('You do not have permissions to add a location.'));
+				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+			}
+		}
+
+		$location = $this->Locations->newEntity();
         if ($this->request->is('post')) {
             $location = $this->Locations->patchEntity($location, $this->request->getData());
             if ($this->Locations->save($location)) {
@@ -63,8 +124,12 @@ class LocationsController extends AppController
         }
         $states = $this->Locations->States->find('list', ['limit' => 200]);
         $countries = $this->Locations->Countries->find('list', ['limit' => 200]);
-        $this->set(compact('location', 'states', 'countries'));
-    }
+		$companies = $this->Locations->Companies->find('list', ['limit' => 200])->where(['id =' => $company_id]);
+        $this->set(compact('location', 'states', 'countries', 'companies'));
+		
+		$this->set('company_id', $company_id);
+		$this->set('permissionLevel', $permissionLevel);
+	}
 
     /**
      * Edit method
@@ -75,9 +140,36 @@ class LocationsController extends AppController
      */
     public function edit($id = null)
     {
-        $location = $this->Locations->get($id, [
+        $company_id = $this->Auth->user('company_id');
+
+ 		$permissionLevel = $this->Auth->user('permission_id');
+
+		$location = $this->Locations->get($id, [
             'contain' => []
         ]);
+		
+		if ($permissionLevel == 0 )
+		{
+
+		} elseif ($permissionLevel <= 10 )
+		{
+			if ($location->company_id != $company_id)
+			{
+				$location = null;
+				$this->Flash->error(__('That location is not associated with your company.'));
+				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($permissionLevel <= 20)
+			{
+				$location = null;
+				$this->Flash->error(__('You do not have permissions to edit a location.'));
+				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+			}
+		}
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $location = $this->Locations->patchEntity($location, $this->request->getData());
             if ($this->Locations->save($location)) {
@@ -89,7 +181,10 @@ class LocationsController extends AppController
         }
         $states = $this->Locations->States->find('list', ['limit' => 200]);
         $countries = $this->Locations->Countries->find('list', ['limit' => 200]);
-        $this->set(compact('location', 'states', 'countries'));
+		$companies = $this->Locations->Companies->find('list', ['limit' => 200])->where(['id =' => $company_id]);
+        $this->set(compact('location', 'states', 'countries', 'companies'));
+		$this->set('company_id', $company_id);
+		$this->set('permissionLevel', $permissionLevel);
     }
 
     /**
@@ -111,4 +206,42 @@ class LocationsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+	
+	public function uploadImage()
+	{
+		$this->autoRender = false; // avoid to render view
+		
+		if ($this->request->is(array('ajax'))) 
+   		{
+			/* Getting file name */
+			$filename = $_FILES['file']['name'];
+
+			/* Getting File size */
+			$filesize = $_FILES['file']['size'];
+
+			/* Location */
+			// webroot/upload-files/module/#-filename
+			$location = WWW_ROOT . "upload-files" . DS . $this->request->getData('module') . DS . $this->request->getData('company_id') . '-' . $filename;
+
+			$return_arr = array();
+
+			/* Upload file */
+			if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
+				$src = "default.png";
+
+				// checking file is image or not
+				if(is_array(getimagesize($location))){
+					// webroot/upload-files/module/#-filename
+					$src = "/upload-files/" . $this->request->getData('module') . "/" . $this->request->getData('company_id') . '-' . $filename;
+				}
+				$return_arr = array("name" => $filename,"size" => $filesize, "src"=> $src);
+			}
+			else{
+				$this->Flash->error(__('There was an error uploading your image.'));
+			}
+
+			echo json_encode($return_arr);
+		}
+
+	}
 }

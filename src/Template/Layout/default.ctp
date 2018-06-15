@@ -28,7 +28,7 @@ $cakeDescription = 'Conference';
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('style.css') ?>
-    <?= $this->Html->script('image-uploader.js') ?>
+	<?= $this->Html->css('conference.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -54,5 +54,6 @@ $cakeDescription = 'Conference';
     </div>
     <footer>
     </footer>
+<?= $this->Html->script(['jquery.js', 'image-uploader.js']) ?>
 </body>
 </html>

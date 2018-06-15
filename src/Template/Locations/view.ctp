@@ -7,24 +7,64 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('Edit Location'), ['action' => 'edit', $location->id]) ?> </li>
         <li><?= $this->Form->postLink(__('Delete Location'), ['action' => 'delete', $location->id], ['confirm' => __('Are you sure you want to delete # {0}?', $location->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Locations'), ['action' => 'index']) ?> </li>
+<?php
+	}
+?>
+		<li><?= $this->Html->link(__('List Locations'), ['action' => 'index']) ?> </li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Location'), ['action' => 'add']) ?> </li>
+<?php
+	}
+?>
 		<li><hr></li>
         <li><?= $this->Html->link(__('List Conferences'), ['controller' => 'Conferences', 'action' => 'index']) ?> </li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Conference'), ['controller' => 'Conferences', 'action' => 'add']) ?> </li>
+<?php
+	}
+?>
 		<li><hr></li>
-        <li><?= $this->Html->link(__('List Location Floorplans'), ['controller' => 'LocationFloorplans', 'action' => 'index']) ?> </li>
+		<li><?= $this->Html->link(__('List Location Floorplans'), ['controller' => 'LocationFloorplans', 'action' => 'index']) ?> </li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Location Floorplan'), ['controller' => 'LocationFloorplans', 'action' => 'add']) ?> </li>
+<?php
+	}
+?>
 		<li><hr></li>
         <li><?= $this->Html->link(__('List Location Room Names'), ['controller' => 'LocationRoomNames', 'action' => 'index']) ?> </li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Location Room Name'), ['controller' => 'LocationRoomNames', 'action' => 'add']) ?> </li>
-    </ul>
+<?php
+	}
+?>
+	</ul>
 </nav>
 <div class="locations view large-9 medium-8 columns content">
-    <h3><?= h($location->id) ?></h3>
+
+    <h3><?= h($location->location_name) ?></h3>
     <table class="vertical-table">
+		<tr>
+            <td colspan="2"><?php echo $this->Html->image($location->location_image, array('width' => '400px','alt'=>'location')); ?></td>
+        </tr>
+
         <tr>
             <th scope="row"><?= __('Location Name') ?></th>
             <td><?= h($location->location_name) ?></td>
@@ -43,11 +83,11 @@
         </tr>
         <tr>
             <th scope="row"><?= __('State') ?></th>
-            <td><?= $location->has('state') ? $this->Html->link($location->state->state_name, ['controller' => 'States', 'action' => 'view', $location->state->id]) : '' ?></td>
+            <td><?= $location->has('state') ? $location->state->state_name : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Country') ?></th>
-            <td><?= $location->has('country') ? $this->Html->link($location->country->country_name, ['controller' => 'Countries', 'action' => 'view', $location->country->id]) : '' ?></td>
+            <td><?= $location->has('country') ? $location->country->country_name : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Location Zipcode') ?></th>
@@ -61,11 +101,7 @@
             <th scope="row"><?= __('Location Web Address') ?></th>
             <td><?= h($location->location_web_address) ?></td>
         </tr>
-        <tr>
-            <th scope="row"><?= __('Location Image') ?></th>
-            <td><?= h($location->location_image) ?></td>
-        </tr>
-        <tr>
+		<tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($location->id) ?></td>
         </tr>
@@ -74,8 +110,8 @@
             <td><?= $this->Number->format($location->location_fax) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Company Id') ?></th>
-            <td><?= $this->Number->format($location->company_id) ?></td>
+            <th scope="row"><?= __('Company') ?></th>
+            <td><?= h($location->company->company_name) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>

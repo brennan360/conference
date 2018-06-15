@@ -153,7 +153,7 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-		//$company_id = $this->Auth->user('company_id');
+		$company_id = $this->Auth->user('company_id');
 		$company_name = $this->_getCompanyName();
 
 		$adminUser = $this->Users->findById($this->Auth->User('id'));
@@ -162,6 +162,28 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+		if ($adminPermission_id == 0)
+		{
+			
+		}
+		elseif ($adminPermission_id <= 10)
+		{
+			if ($user->company_id != $company_id)
+			{
+				$user = null;
+				$this->Flash->error(__('That user is not associated with your company.'));
+				return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($adminPermission_id <= 20)
+			{
+				$user = null;
+				$this->Flash->error(__('You do not have permissions to edit a user.'));
+				return $this->redirect(['controller' => 'Conference', 'action' => 'index']);
+			}
+		}
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
@@ -181,6 +203,7 @@ class UsersController extends AppController
 		$permissions = $this->Users->Permissions->find('list', ['limit' => 200])->where(['id >=' => $adminPermission_id]);
         $this->set(compact('user', 'companies', 'permissions'));
 		$this->set('company_name', $company_name);
+		$this->set('permissionLevel', $adminPermission_id);
     }
 
     /**
