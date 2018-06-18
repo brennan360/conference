@@ -35,8 +35,6 @@ class ConferencesController extends AppController
         	$conferences = $this->paginate($this->Conferences->findByCompanyId($company_id));
 		} 
 
-        $conferences = $this->paginate($this->Conferences);
-
         $this->set(compact('conferences'));
 		$this->set("permissionLevel", $permission_id);
     }
@@ -71,6 +69,22 @@ class ConferencesController extends AppController
         $company_id = $this->Auth->user('company_id');
 		$permission_id = $this->Auth->user('permission_id');
 
+		if ($permission_id == 0 )
+		{
+		}
+		elseif ($permission_id <= 10 )
+		{
+		}
+		else
+		{
+			if ($permission_id <= 20)
+			{
+				$conference = null;
+				$this->Flash->error(__('You do not have permissions to add a conference.'));
+				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+			}
+		}
+		
         $conference = $this->Conferences->newEntity();
         if ($this->request->is('post')) {
             $conference = $this->Conferences->patchEntity($conference, $this->request->getData());
@@ -104,7 +118,30 @@ class ConferencesController extends AppController
         $conference = $this->Conferences->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+ 
+		if ($permission_id == 0 )
+		{
+
+		} elseif ($permission_id <= 10 )
+		{
+			if ($conference->company_id != $company_id)
+			{
+				$conference = null;
+				$this->Flash->error(__('That conference is not associated with your company.'));
+				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($permission_id <= 20)
+			{
+				$conference = null;
+				$this->Flash->error(__('You do not have permissions to edit a conference.'));
+				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+			}
+		}
+
+if ($this->request->is(['patch', 'post', 'put'])) {
             $conference = $this->Conferences->patchEntity($conference, $this->request->getData());
             if ($this->Conferences->save($conference)) {
                 $this->Flash->success(__('The conference has been saved.'));

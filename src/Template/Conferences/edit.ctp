@@ -68,6 +68,7 @@
             echo $this->Form->hidden('main_page_image');
             echo $this->Form->hidden('icon_image');
 			echo $this->Form->hidden('controller', ['value' => 'main_page' ]);
+			echo $this->Form->hidden('controller1', ['value' => 'icon' ]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

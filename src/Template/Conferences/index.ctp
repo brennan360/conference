@@ -54,8 +54,15 @@
                 <td><?php echo $conference->icon_image ? $this->Html->image($conference->icon_image, array('style' => 'max-height:50px;','alt'=>'icon_image')) : ''; ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $conference->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $conference->id]) ?>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
+					<?= $this->Html->link(__('Edit'), ['action' => 'edit', $conference->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $conference->id], ['confirm' => __('Are you sure you want to delete # {0}?', $conference->id)]) ?>
+<?php
+	}
+?>
                 </td>
             </tr>
             <?php endforeach; ?>

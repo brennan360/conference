@@ -65,7 +65,7 @@ $(function() {
 
         fd.append('file', file[0]);
 		fd.append('company_id', $('input[name=company_id]').val());
-		fd.append('module', $('input[name=controller]').val());
+		fd.append('module', $('input[name=controller1]').val());
 
         uploadData1(fd);
     });
@@ -97,7 +97,7 @@ $(function() {
 
         fd.append('file',files);
 		fd.append('company_id', $('#company-id').val());
-		fd.append('module', $('#controller').val());
+		fd.append('module', $('#controller1').val());
 
         uploadData(fd);
     });
@@ -182,7 +182,7 @@ function populateFormField(data)
 }
 function populateFormField1(data)
 {
-	var module = document.getElementsByName('controller')[0].value + "_image"
+	var module = document.getElementsByName('controller1')[0].value + "_image"
 	var field = document.getElementsByName(module);
 	field[0].value = data.src;
 }
