@@ -54,6 +54,29 @@ class ConferencesController extends AppController
         $conference = $this->Conferences->get($id, [
             'contain' => ['Companies', 'Locations']
         ]);
+		
+		if ($permission_id == 0 )
+		{
+
+		} elseif ($permission_id <= 20 )
+		{
+			if ($conference->company_id != $company_id)
+			{
+				$conference = null;
+				$this->Flash->error(__('That conference is not associated with your company.'));
+				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($thisUserId != $id)
+			{
+				$location = null;
+				$this->Flash->error(__('You are not authorized to view that conference.'));
+				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+			}
+		}
+
 
         $this->set('conference', $conference);
 		$this->set("permissionLevel", $permission_id);
