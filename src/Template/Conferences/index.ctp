@@ -50,8 +50,8 @@
                 <td><?= h($conference->end_date) ?></td>
                 <td><?= $conference->has('location') ? h($conference->location->location_name) : '' ?></td>
                 <td><?= h($conference->is_active == 1 ? 'yes':'no') ?></td>
-                <td><?= h($conference->main_page_image) ?></td>
-                <td><?= h($conference->icon_image) ?></td>
+                <td><?php echo $this->Html->image($conference->main_page_image, array('style' => 'max-height:50px;','alt'=>'main_page_image')); ?></td>
+                <td><?php echo $conference->icon_image ? $this->Html->image($conference->icon_image, array('style' => 'max-height:50px;','alt'=>'icon_image')) : ''; ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $conference->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $conference->id]) ?>

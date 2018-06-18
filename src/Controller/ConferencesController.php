@@ -50,11 +50,15 @@ class ConferencesController extends AppController
      */
     public function view($id = null)
     {
+        $company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
         $conference = $this->Conferences->get($id, [
             'contain' => ['Companies', 'Locations']
         ]);
 
         $this->set('conference', $conference);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**

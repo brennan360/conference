@@ -43,6 +43,7 @@
             
             <!-- Drag and Drop container-->
             <div class="upload-area" id="uploadfile">
+				<img src="<?= $conference->main_page_image ?>" alt="location">
                 <h1>Drag and Drop file here<br/>Or<br/>Click to select file</h1>
             </div>
         </div>
@@ -52,6 +53,7 @@
             
             <!-- Drag and Drop container-->
             <div class="upload-area1" id="uploadfile1">
+				<img src="<?= $conference->icon_image ?>" alt="location">
                 <h1>Drag and Drop Icon file here<br/>Or<br/>Click to select file</h1>
             </div>
         </div>
@@ -65,7 +67,7 @@
             echo $this->Form->control('conference_description');
             echo $this->Form->hidden('main_page_image');
             echo $this->Form->hidden('icon_image');
-			echo $this->Form->hidden('controller', ['value' => 'conferences' ]);
+			echo $this->Form->hidden('controller', ['value' => 'main_page' ]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

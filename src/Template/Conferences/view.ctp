@@ -7,14 +7,34 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('Edit Conference'), ['action' => 'edit', $conference->id]) ?> </li>
         <li><?= $this->Form->postLink(__('Delete Conference'), ['action' => 'delete', $conference->id], ['confirm' => __('Are you sure you want to delete # {0}?', $conference->id)]) ?> </li>
+<?php
+	}
+?>
         <li><?= $this->Html->link(__('List Conferences'), ['action' => 'index']) ?> </li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Conference'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Companies'), ['controller' => 'Companies', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Company'), ['controller' => 'Companies', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Locations'), ['controller' => 'Locations', 'action' => 'index']) ?> </li>
+<?php
+	}
+?>
+        <li><hr></li>
+		<li><?= $this->Html->link(__('List Locations'), ['controller' => 'Locations', 'action' => 'index']) ?> </li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Location'), ['controller' => 'Locations', 'action' => 'add']) ?> </li>
+<?php
+	}
+?>
     </ul>
 </nav>
 <div class="conferences view large-9 medium-8 columns content">
@@ -26,11 +46,11 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Company') ?></th>
-            <td><?= $conference->has('company') ? $this->Html->link($conference->company->company_name, ['controller' => 'Companies', 'action' => 'view', $conference->company->id]) : '' ?></td>
+            <td><?= $conference->has('company') ? $conference->company->company_name : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Location') ?></th>
-            <td><?= $conference->has('location') ? $this->Html->link($conference->location->id, ['controller' => 'Locations', 'action' => 'view', $conference->location->id]) : '' ?></td>
+            <td><?= $conference->has('location') ? $this->Html->link($conference->location->location_name, ['controller' => 'Locations', 'action' => 'view', $conference->location->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Main Page Image') ?></th>
