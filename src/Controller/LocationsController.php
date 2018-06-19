@@ -230,7 +230,7 @@ class LocationsController extends AppController
 				$src = "default.png";
 
 				// checking file is image or not
-				if(is_array(getimagesize($location))){
+				if(is_array(getimagesize($location)) || mime_content_type($location) == "application/pdf"){
 					// webroot/upload-files/module/#-filename
 					$src = "/upload-files/" . $this->request->getData('module') . "/" . $this->request->getData('company_id') . '-' . $filename;
 				}

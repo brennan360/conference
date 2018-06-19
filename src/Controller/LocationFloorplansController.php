@@ -51,6 +51,9 @@ class LocationFloorplansController extends AppController
      */
     public function add()
     {
+		$company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
         $locationFloorplan = $this->LocationFloorplans->newEntity();
         if ($this->request->is('post')) {
             $locationFloorplan = $this->LocationFloorplans->patchEntity($locationFloorplan, $this->request->getData());
@@ -63,6 +66,9 @@ class LocationFloorplansController extends AppController
         }
         $locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200]);
         $this->set(compact('locationFloorplan', 'locations'));
+		
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**

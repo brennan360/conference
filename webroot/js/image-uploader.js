@@ -117,7 +117,10 @@ function uploadData(formdata){
         success: function(response){
             addThumbnail(response);
 			populateFormField(response);
-        }
+        },
+		fail: function() {
+    		alert( "error" );
+  		}
     });
 }
 function uploadData1(formdata){
@@ -133,7 +136,10 @@ function uploadData1(formdata){
         success: function(response){
             addThumbnail1(response);
 			populateFormField1(response);
-        }
+        },
+		fail: function() {
+    		alert( "error" );
+  		}
     });
 }
 
