@@ -34,9 +34,22 @@
     <h3><?= h($locationFloorplan->id) ?></h3>
     <table class="vertical-table">
 		<tr>
+<?php
+	if (mime_content_type(WWW_ROOT . $locationFloorplan->floorplan_image) == "application/pdf")
+	{
+?>
+		<td colspan="2"><embed src="<?= $locationFloorplan->floorplan_image; ?>" type="application/pdf" height="300px" width="100%"></td>
+<?php
+	}
+	else
+	{
+?>
             <td colspan="2"><?php echo $this->Html->image($locationFloorplan->floorplan_image, array('width' => '400px','alt'=>'floorplan_image')); ?></td>
-        </tr>
-        <tr>
+<?php
+	}
+?>
+		</tr>
+		<tr>
             <th scope="row"><?= __('Location') ?></th>
             <td><?= $locationFloorplan->has('location') ? $this->Html->link($locationFloorplan->location->location_name, ['controller' => 'Locations', 'action' => 'view', $locationFloorplan->location->id]) : '' ?></td>
         </tr>
