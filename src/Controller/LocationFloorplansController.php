@@ -20,12 +20,18 @@ class LocationFloorplansController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+		$company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
+       	$this->paginate = [
             'contain' => ['Locations']
         ];
         $locationFloorplans = $this->paginate($this->LocationFloorplans);
 
         $this->set(compact('locationFloorplans'));
+
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**
@@ -37,11 +43,17 @@ class LocationFloorplansController extends AppController
      */
     public function view($id = null)
     {
-        $locationFloorplan = $this->LocationFloorplans->get($id, [
+		$company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+		
+		$locationFloorplan = $this->LocationFloorplans->get($id, [
             'contain' => ['Locations']
         ]);
 
         $this->set('locationFloorplan', $locationFloorplan);
+
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**
@@ -64,7 +76,7 @@ class LocationFloorplansController extends AppController
             }
             $this->Flash->error(__('The location floorplan could not be saved. Please, try again.'));
         }
-        $locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200]);
+        $locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200])->where(['company_id' => $company_id]);;
         $this->set(compact('locationFloorplan', 'locations'));
 		
 		$this->set('company_id', $company_id);
@@ -80,7 +92,10 @@ class LocationFloorplansController extends AppController
      */
     public function edit($id = null)
     {
-        $locationFloorplan = $this->LocationFloorplans->get($id, [
+ 		$company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+		
+       	$locationFloorplan = $this->LocationFloorplans->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -92,8 +107,11 @@ class LocationFloorplansController extends AppController
             }
             $this->Flash->error(__('The location floorplan could not be saved. Please, try again.'));
         }
-        $locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200]);
+        $locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200])->where(['company_id' => $company_id]);
         $this->set(compact('locationFloorplan', 'locations'));
+		
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**

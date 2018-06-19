@@ -64,7 +64,6 @@
 		<tr>
             <td colspan="2"><?php echo $this->Html->image($location->location_image, array('width' => '400px','alt'=>'location')); ?></td>
         </tr>
-
         <tr>
             <th scope="row"><?= __('Location Name') ?></th>
             <td><?= h($location->location_name) ?></td>
