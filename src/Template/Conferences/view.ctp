@@ -40,6 +40,11 @@
 <div class="conferences view large-9 medium-8 columns content">
     <h3><?= h($conference->id) ?></h3>
     <table class="vertical-table">
+		<tr>
+            <td><?php echo $this->Html->image($conference->main_page_image, array('width' => '400px','alt'=>'conference')); ?></td>
+
+            <td><?php echo $this->Html->image($conference->icon_image, array('width' => '50px','alt'=>'icon')); ?></td>
+        </tr>
         <tr>
             <th scope="row"><?= __('Conference Title') ?></th>
             <td><?= h($conference->conference_title) ?></td>

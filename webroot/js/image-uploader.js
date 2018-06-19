@@ -167,9 +167,9 @@ function addThumbnail1(data){
     var src = data.src;
 
     // Creating an thumbnail
-    $("#uploadfile1").append('<div id="thumbnail_'+num+'" class="thumbnail"></div>');
-    $("#thumbnail_"+num).append('<img src="'+src+'" width="100%" height="78%">');
-    $("#thumbnail_"+num).append('<span class="size">'+size+'<span>');
+    $("#uploadfile1").append('<div id="thumbnail1_'+num+'" class="thumbnail"></div>');
+    $("#thumbnail1_"+num).append('<img src="'+src+'" width="100%" height="78%">');
+    $("#thumbnail1_"+num).append('<span class="size">'+size+'<span>');
 
 }
 
