@@ -93,7 +93,6 @@ class LocationsController extends AppController
     public function add()
     {
         $company_id = $this->Auth->user('company_id');
-
 		$permissionLevel = $this->Auth->user('permission_id');
 
 		if ($permissionLevel == 0 )
@@ -141,7 +140,6 @@ class LocationsController extends AppController
     public function edit($id = null)
     {
         $company_id = $this->Auth->user('company_id');
-
  		$permissionLevel = $this->Auth->user('permission_id');
 
 		$location = $this->Locations->get($id, [

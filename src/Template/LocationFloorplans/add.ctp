@@ -10,7 +10,14 @@
         <li><?= $this->Html->link(__('List Location Floorplans'), ['action' => 'index']) ?></li>
 		<li><hr></li>
         <li><?= $this->Html->link(__('List Locations'), ['controller' => 'Locations', 'action' => 'index']) ?></li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Location'), ['controller' => 'Locations', 'action' => 'add']) ?></li>
+<?php
+	}
+?>
     </ul>
 </nav>
 <div class="locationFloorplans form large-9 medium-8 columns content">

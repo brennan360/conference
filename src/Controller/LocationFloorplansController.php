@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Utility\Hash;
+//App::uses('Hash', 'Utility');
 
 /**
  * LocationFloorplans Controller
@@ -20,13 +22,33 @@ class LocationFloorplansController extends AppController
      */
     public function index()
     {
+		$this->loadModel('Locations');
+		
 		$company_id = $this->Auth->user('company_id');
 		$permission_id = $this->Auth->user('permission_id');
 
-       	$this->paginate = [
-            'contain' => ['Locations']
-        ];
-        $locationFloorplans = $this->paginate($this->LocationFloorplans);
+       	$this->paginate = ['contain' => ['Locations']];
+
+		if ($permission_id == '0')
+		{
+        	$locationFloorplans = $this->paginate($this->LocationFloorplans);
+		} 
+		else
+		{
+			$locations = '';
+        	$locationQuery = $this->Locations
+				->find("list", array("fields"=>array("Locations.id")))
+				->where(['company_id' => $company_id])
+				->hydrate(false);
+			foreach ($locationQuery as $key => $value)
+			{
+					$locations .= (string)$key;
+					$locations .= ", ";
+			}
+			$locations = trim($locations, ", ");
+echo $locations;
+			$locationFloorplans = $this->paginate($this->LocationFloorplans->find('all', ['conditions' =>['location_id IN' => $locations]]));
+		} 
 
         $this->set(compact('locationFloorplans'));
 
@@ -66,7 +88,23 @@ class LocationFloorplansController extends AppController
 		$company_id = $this->Auth->user('company_id');
 		$permission_id = $this->Auth->user('permission_id');
 
-        $locationFloorplan = $this->LocationFloorplans->newEntity();
+		if ($permission_id == 0 )
+		{
+		}
+		elseif ($permission_id <= 10 )
+		{
+		}
+		else
+		{
+			if ($permission_id <= 20)
+			{
+				$location = null;
+				$this->Flash->error(__('You do not have permissions to add a location.'));
+				return $this->redirect(['controller' => 'LocationFloorplans', 'action' => 'index']);
+			}
+		}
+
+		$locationFloorplan = $this->LocationFloorplans->newEntity();
         if ($this->request->is('post')) {
             $locationFloorplan = $this->LocationFloorplans->patchEntity($locationFloorplan, $this->request->getData());
             if ($this->LocationFloorplans->save($locationFloorplan)) {
@@ -98,7 +136,30 @@ class LocationFloorplansController extends AppController
        	$locationFloorplan = $this->LocationFloorplans->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+
+		if ($permission_id == 0 )
+		{
+
+		} elseif ($permission_id <= 10 )
+		{
+			if ($locationFloorplan->company_id != $company_id)
+			{
+				$location = null;
+				$this->Flash->error(__('That floorplan is not associated with your company.'));
+				return $this->redirect(['controller' => 'LocationFloorplans', 'action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($permission_id <= 20)
+			{
+				$location = null;
+				$this->Flash->error(__('You do not have permissions to edit a floorplan.'));
+				return $this->redirect(['controller' => 'LocationFloorplans', 'action' => 'index']);
+			}
+		}
+
+		if ($this->request->is(['patch', 'post', 'put'])) {
             $locationFloorplan = $this->LocationFloorplans->patchEntity($locationFloorplan, $this->request->getData());
             if ($this->LocationFloorplans->save($locationFloorplan)) {
                 $this->Flash->success(__('The location floorplan has been saved.'));

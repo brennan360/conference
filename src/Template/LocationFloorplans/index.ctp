@@ -38,8 +38,15 @@
                 <td><?= h($locationFloorplan->is_active) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $locationFloorplan->id]) ?>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $locationFloorplan->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $locationFloorplan->id], ['confirm' => __('Are you sure you want to delete # {0}?', $locationFloorplan->id)]) ?>
+<?php
+	}
+?>
                 </td>
             </tr>
             <?php endforeach; ?>
