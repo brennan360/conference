@@ -46,7 +46,7 @@ class LocationFloorplansController extends AppController
 					$locations .= ", ";
 			}
 			$locations = trim($locations, ", ");
-echo $locations;
+			
 			$locationFloorplans = $this->paginate($this->LocationFloorplans->find('all', ['conditions' =>['location_id IN' => $locations]]));
 		} 
 
@@ -65,6 +65,10 @@ echo $locations;
      */
     public function view($id = null)
     {
+		$this->loadModel('Locations');
+		
+		$thisUserId = $this->Auth->user('id');
+		
 		$company_id = $this->Auth->user('company_id');
 		$permission_id = $this->Auth->user('permission_id');
 		
@@ -72,6 +76,38 @@ echo $locations;
             'contain' => ['Locations']
         ]);
 
+		$locations = array();
+		$locationQuery = $this->Locations
+			->find("list", array("fields"=>array("Locations.id")))
+			->where(['company_id' => $company_id])
+			->hydrate(false);
+		foreach ($locationQuery as $key => $value)
+		{
+				$locations[] = (string)$key;
+		}
+		
+		if ($permission_id == 0 )
+		{
+
+		} elseif ($permission_id <= 20 )
+		{
+			if (!in_array($locationFloorplan->location_id, $locations))
+			{
+				$locationFloorplan = null;
+				$this->Flash->error(__('That location is not associated with your company.'));
+				return $this->redirect(['controller' => 'LocationFLoorplans', 'action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($thisUserId != $id)
+			{
+				$locationFloorplan = null;
+				$this->Flash->error(__('You are not authorized to view that location.'));
+				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+			}
+		}
+		
         $this->set('locationFloorplan', $locationFloorplan);
 
 		$this->set('company_id', $company_id);
@@ -88,18 +124,19 @@ echo $locations;
 		$company_id = $this->Auth->user('company_id');
 		$permission_id = $this->Auth->user('permission_id');
 
-		if ($permission_id == 0 )
+		if ($permission_id == 0)
 		{
 		}
-		elseif ($permission_id <= 10 )
+		elseif ($permission_id <= 10)
 		{
 		}
 		else
 		{
 			if ($permission_id <= 20)
 			{
-				$location = null;
-				$this->Flash->error(__('You do not have permissions to add a location.'));
+
+				$locationFloorplan = null;
+				$this->Flash->error(__('You do not have permissions to add a floorplan.'));
 				return $this->redirect(['controller' => 'LocationFloorplans', 'action' => 'index']);
 			}
 		}
@@ -114,7 +151,14 @@ echo $locations;
             }
             $this->Flash->error(__('The location floorplan could not be saved. Please, try again.'));
         }
-        $locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200])->where(['company_id' => $company_id]);;
+		if ($permission_id == 0 )
+		{
+			$locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200]);
+		}
+		else
+		{
+        	$locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200])->where(['company_id' => $company_id]);;
+		}
         $this->set(compact('locationFloorplan', 'locations'));
 		
 		$this->set('company_id', $company_id);
@@ -130,27 +174,45 @@ echo $locations;
      */
     public function edit($id = null)
     {
+		$this->loadModel('Locations');
+
  		$company_id = $this->Auth->user('company_id');
 		$permission_id = $this->Auth->user('permission_id');
-		
+
        	$locationFloorplan = $this->LocationFloorplans->get($id, [
             'contain' => []
         ]);
 
+		$locationFloorplan = $this->LocationFloorplans->get($id, [
+            'contain' => ['Locations']
+        ]);
+
+		$locations = array();
+		$locationQuery = $this->Locations
+			->find("list", array("fields"=>array("Locations.id")))
+			->where(['company_id' => $company_id])
+			->hydrate(false);
+		foreach ($locationQuery as $key => $value)
+		{
+				$locations[] = (string)$key;
+		}
+		
 		if ($permission_id == 0 )
 		{
 
-		} elseif ($permission_id <= 10 )
+		}
+		elseif ($permission_id <= 10 )
 		{
-			if ($locationFloorplan->company_id != $company_id)
+			if (!in_array($locationFloorplan->location_id, $locations))
 			{
-				$location = null;
+				$locationFloorplan = null;
 				$this->Flash->error(__('That floorplan is not associated with your company.'));
 				return $this->redirect(['controller' => 'LocationFloorplans', 'action' => 'index']);
 			}
 		}
 		else
 		{
+
 			if ($permission_id <= 20)
 			{
 				$location = null;
@@ -168,7 +230,14 @@ echo $locations;
             }
             $this->Flash->error(__('The location floorplan could not be saved. Please, try again.'));
         }
-        $locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200])->where(['company_id' => $company_id]);
+		if ($permission_id == 0 )
+		{
+			$locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200]);
+		}
+		else
+		{
+        	$locations = $this->LocationFloorplans->Locations->find('list', ['limit' => 200])->where(['company_id' => $company_id]);;
+		}
         $this->set(compact('locationFloorplan', 'locations'));
 		
 		$this->set('company_id', $company_id);

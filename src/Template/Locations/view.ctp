@@ -172,29 +172,27 @@
         <?php if (!empty($location->location_floorplans)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('Floorplan Image') ?></th>
                 <th scope="col"><?= __('Floorplan Description') ?></th>
                 <th scope="col"><?= __('Is Active') ?></th>
-                <th scope="col"><?= __('Location Id') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($location->location_floorplans as $locationFloorplans): ?>
             <tr>
-                <td><?= h($locationFloorplans->id) ?></td>
                 <td><?= h($locationFloorplans->floorplan_image) ?></td>
                 <td><?= h($locationFloorplans->floorplan_description) ?></td>
                 <td><?= h($locationFloorplans->is_active) ?></td>
-                <td><?= h($locationFloorplans->location_id) ?></td>
-                <td><?= h($locationFloorplans->created) ?></td>
-                <td><?= h($locationFloorplans->modified) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'LocationFloorplans', 'action' => 'view', $locationFloorplans->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'LocationFloorplans', 'action' => 'edit', $locationFloorplans->id]) ?>
+ <?php
+	if ($permissionLevel <= 10)
+	{
+?>
+                   <?= $this->Html->link(__('Edit'), ['controller' => 'LocationFloorplans', 'action' => 'edit', $locationFloorplans->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'LocationFloorplans', 'action' => 'delete', $locationFloorplans->id], ['confirm' => __('Are you sure you want to delete # {0}?', $locationFloorplans->id)]) ?>
-                </td>
+<?php
+	}
+?>                </td>
             </tr>
             <?php endforeach; ?>
         </table>
@@ -205,29 +203,27 @@
         <?php if (!empty($location->location_room_names)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Location Id') ?></th>
                 <th scope="col"><?= __('Room Name') ?></th>
                 <th scope="col"><?= __('Nickname') ?></th>
                 <th scope="col"><?= __('Is Active') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($location->location_room_names as $locationRoomNames): ?>
             <tr>
-                <td><?= h($locationRoomNames->id) ?></td>
-                <td><?= h($locationRoomNames->location_id) ?></td>
                 <td><?= h($locationRoomNames->room_name) ?></td>
                 <td><?= h($locationRoomNames->nickname) ?></td>
                 <td><?= h($locationRoomNames->is_active) ?></td>
-                <td><?= h($locationRoomNames->created) ?></td>
-                <td><?= h($locationRoomNames->modified) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'LocationRoomNames', 'action' => 'view', $locationRoomNames->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'LocationRoomNames', 'action' => 'edit', $locationRoomNames->id]) ?>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
+					<?= $this->Html->link(__('Edit'), ['controller' => 'LocationRoomNames', 'action' => 'edit', $locationRoomNames->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'LocationRoomNames', 'action' => 'delete', $locationRoomNames->id], ['confirm' => __('Are you sure you want to delete # {0}?', $locationRoomNames->id)]) ?>
-                </td>
+<?php
+	}
+?>                </td>
             </tr>
             <?php endforeach; ?>
         </table>

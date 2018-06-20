@@ -20,12 +20,20 @@ class LocationRoomNamesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+		$this->loadModel('Locations');
+		
+		$company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
+       	$this->paginate = [
             'contain' => ['Locations']
         ];
         $locationRoomNames = $this->paginate($this->LocationRoomNames);
 
         $this->set(compact('locationRoomNames'));
+		
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**
@@ -37,11 +45,21 @@ class LocationRoomNamesController extends AppController
      */
     public function view($id = null)
     {
-        $locationRoomName = $this->LocationRoomNames->get($id, [
+ 		$this->loadModel('Locations');
+		
+		$thisUserId = $this->Auth->user('id');
+		
+		$company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+		
+       $locationRoomName = $this->LocationRoomNames->get($id, [
             'contain' => ['Locations']
         ]);
 
         $this->set('locationRoomName', $locationRoomName);
+
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**
@@ -74,7 +92,12 @@ class LocationRoomNamesController extends AppController
      */
     public function edit($id = null)
     {
-        $locationRoomName = $this->LocationRoomNames->get($id, [
+ 		$this->loadModel('Locations');
+
+ 		$company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
+       $locationRoomName = $this->LocationRoomNames->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -88,6 +111,9 @@ class LocationRoomNamesController extends AppController
         }
         $locations = $this->LocationRoomNames->Locations->find('list', ['limit' => 200]);
         $this->set(compact('locationRoomName', 'locations'));
+		
+		$this->set('company_id', $company_id);
+		$this->set("permissionLevel", $permission_id);
     }
 
     /**
