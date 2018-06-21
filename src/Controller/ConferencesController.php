@@ -54,29 +54,26 @@ class ConferencesController extends AppController
         $conference = $this->Conferences->get($id, [
             'contain' => ['Companies', 'Locations']
         ]);
-		
-		if ($permission_id == 0 )
+
+		if ($permission_id == 0)
 		{
 
-		} elseif ($permission_id <= 20 )
+		} elseif ($permission_id <= 20)
 		{
 			if ($conference->company_id != $company_id)
 			{
-				$conference = null;
 				$this->Flash->error(__('That conference is not associated with your company.'));
 				return $this->redirect(['action' => 'index']);
 			}
 		}
 		else
 		{
-			if ($thisUserId != $id)
+			if ($thisUserId != $id) // not sure what this does
 			{
-				$location = null;
 				$this->Flash->error(__('You are not authorized to view that conference.'));
 				return $this->redirect(['action' => 'index']);
 			}
 		}
-
 
         $this->set('conference', $conference);
 		$this->set("permissionLevel", $permission_id);
@@ -149,7 +146,6 @@ class ConferencesController extends AppController
 		{
 			if ($conference->company_id != $company_id)
 			{
-				$conference = null;
 				$this->Flash->error(__('That conference is not associated with your company.'));
 				return $this->redirect(['action' => 'index']);
 			}
@@ -158,13 +154,12 @@ class ConferencesController extends AppController
 		{
 			if ($permission_id <= 20)
 			{
-				$conference = null;
 				$this->Flash->error(__('You do not have permissions to edit a conference.'));
 				return $this->redirect(['action' => 'index']);
 			}
 		}
 
-if ($this->request->is(['patch', 'post', 'put'])) {
+		if ($this->request->is(['patch', 'post', 'put'])) {
             $conference = $this->Conferences->patchEntity($conference, $this->request->getData());
             if ($this->Conferences->save($conference)) {
                 $this->Flash->success(__('The conference has been saved.'));

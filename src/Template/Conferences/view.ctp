@@ -38,7 +38,7 @@
     </ul>
 </nav>
 <div class="conferences view large-9 medium-8 columns content">
-    <h3><?= h($conference->id) ?></h3>
+    <h3><?= h($conference->conference_title) ?></h3>
     <table class="vertical-table">
 		<tr>
             <td><?php echo $this->Html->image($conference->main_page_image, array('width' => '400px','alt'=>'conference')); ?></td>
