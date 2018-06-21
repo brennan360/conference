@@ -31,7 +31,7 @@
     </ul>
 </nav>
 <div class="locationFloorplans view large-9 medium-8 columns content">
-    <h3><?= h($locationFloorplan->id) ?></h3>
+    <h3><?= h($locationFloorplan->location->location_name . " floorplan") ?></h3>
     <table class="vertical-table">
 		<tr>
 <?php

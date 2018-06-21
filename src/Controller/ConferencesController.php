@@ -64,7 +64,7 @@ class ConferencesController extends AppController
 			{
 				$conference = null;
 				$this->Flash->error(__('That conference is not associated with your company.'));
-				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 		else
@@ -73,7 +73,7 @@ class ConferencesController extends AppController
 			{
 				$location = null;
 				$this->Flash->error(__('You are not authorized to view that conference.'));
-				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 
@@ -104,7 +104,7 @@ class ConferencesController extends AppController
 			{
 				$conference = null;
 				$this->Flash->error(__('You do not have permissions to add a conference.'));
-				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 		
@@ -151,7 +151,7 @@ class ConferencesController extends AppController
 			{
 				$conference = null;
 				$this->Flash->error(__('That conference is not associated with your company.'));
-				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 		else
@@ -160,7 +160,7 @@ class ConferencesController extends AppController
 			{
 				$conference = null;
 				$this->Flash->error(__('You do not have permissions to edit a conference.'));
-				return $this->redirect(['controller' => 'Conferences', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 

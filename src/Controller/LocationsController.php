@@ -68,7 +68,7 @@ class LocationsController extends AppController
 			{
 				$location = null;
 				$this->Flash->error(__('That location is not associated with your company.'));
-				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 		else
@@ -77,7 +77,7 @@ class LocationsController extends AppController
 			{
 				$location = null;
 				$this->Flash->error(__('You are not authorized to view that location.'));
-				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 
@@ -107,7 +107,7 @@ class LocationsController extends AppController
 			{
 				$location = null;
 				$this->Flash->error(__('You do not have permissions to add a location.'));
-				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 
@@ -155,7 +155,7 @@ class LocationsController extends AppController
 			{
 				$location = null;
 				$this->Flash->error(__('That location is not associated with your company.'));
-				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 		else
@@ -164,7 +164,7 @@ class LocationsController extends AppController
 			{
 				$location = null;
 				$this->Flash->error(__('You do not have permissions to edit a location.'));
-				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 
@@ -240,6 +240,6 @@ class LocationsController extends AppController
 
 			echo json_encode($return_arr);
 		}
-
 	}
+
 }

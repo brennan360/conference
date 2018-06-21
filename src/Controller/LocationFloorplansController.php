@@ -76,35 +76,16 @@ class LocationFloorplansController extends AppController
             'contain' => ['Locations']
         ]);
 
-		$locations = array();
-		$locationQuery = $this->Locations
-			->find("list", array("fields"=>array("Locations.id")))
-			->where(['company_id' => $company_id])
-			->hydrate(false);
-		foreach ($locationQuery as $key => $value)
-		{
-				$locations[] = (string)$key;
-		}
-		
 		if ($permission_id == 0 )
 		{
 
-		} elseif ($permission_id <= 20 )
+		} else
 		{
-			if (!in_array($locationFloorplan->location_id, $locations))
+			if (!($this->Locations->verifyCompanyOwnsThisLocation($locationFloorplan->location_id, $company_id)))
 			{
 				$locationFloorplan = null;
-				$this->Flash->error(__('That location is not associated with your company.'));
-				return $this->redirect(['controller' => 'LocationFLoorplans', 'action' => 'index']);
-			}
-		}
-		else
-		{
-			if ($thisUserId != $id)
-			{
-				$locationFloorplan = null;
-				$this->Flash->error(__('You are not authorized to view that location.'));
-				return $this->redirect(['controller' => 'Locations', 'action' => 'index']);
+				$this->Flash->error(__('That floorplan is not associated with your company.'));
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 		
@@ -137,7 +118,7 @@ class LocationFloorplansController extends AppController
 
 				$locationFloorplan = null;
 				$this->Flash->error(__('You do not have permissions to add a floorplan.'));
-				return $this->redirect(['controller' => 'LocationFloorplans', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 
@@ -187,27 +168,17 @@ class LocationFloorplansController extends AppController
             'contain' => ['Locations']
         ]);
 
-		$locations = array();
-		$locationQuery = $this->Locations
-			->find("list", array("fields"=>array("Locations.id")))
-			->where(['company_id' => $company_id])
-			->hydrate(false);
-		foreach ($locationQuery as $key => $value)
-		{
-				$locations[] = (string)$key;
-		}
-		
 		if ($permission_id == 0 )
 		{
 
 		}
 		elseif ($permission_id <= 10 )
 		{
-			if (!in_array($locationFloorplan->location_id, $locations))
+			if (!($this->Locations->verifyCompanyOwnsThisLocation($locationFloorplan->location_id, $company_id)))
 			{
 				$locationFloorplan = null;
 				$this->Flash->error(__('That floorplan is not associated with your company.'));
-				return $this->redirect(['controller' => 'LocationFloorplans', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 		else
@@ -215,9 +186,9 @@ class LocationFloorplansController extends AppController
 
 			if ($permission_id <= 20)
 			{
-				$location = null;
+				$locationFloorplan = null;
 				$this->Flash->error(__('You do not have permissions to edit a floorplan.'));
-				return $this->redirect(['controller' => 'LocationFloorplans', 'action' => 'index']);
+				return $this->redirect(['action' => 'index']);
 			}
 		}
 

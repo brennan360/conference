@@ -155,4 +155,23 @@ class LocationsTable extends Table
 
         return $rules;
     }
+
+	public function verifyCompanyOwnsThisLocation($location_id, $company_id) 
+	{
+		$locations = array();
+		$locationQuery = $this->find("list", array("fields"=>array("Locations.id")))
+			->where(['company_id' => $company_id])
+			->hydrate(false);
+		foreach ($locationQuery as $key => $value)
+		{
+				$locations[] = (string)$key;
+		}
+
+		if (in_array($location_id, $locations))
+		{
+			return true;
+		}
+		return false;
+	}
+
 }
