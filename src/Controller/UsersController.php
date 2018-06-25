@@ -55,7 +55,9 @@ class UsersController extends AppController
 		}
 
         $this->set(compact('users'));
+        
 		$this->set('company_name', $company_name);
+        $this->set('permission_id', $permission_id);
     }
 
     /**
@@ -72,16 +74,16 @@ class UsersController extends AppController
 		$company_id = $this->Auth->user('company_id');
 		$company_name = $this->_getCompanyName();
 		
-		$permissionLevel = $this->Auth->user('permission_id');
+		$permission_id = $this->Auth->user('permission_id');
 		
 		$user = $this->Users->get($id, [
 			'contain' => ['Companies', 'Permissions']
 		]);
 
-		if ($permissionLevel == 0 )
+		if ($permission_id == 0 )
 		{
 
-		} elseif ($permissionLevel <= 10 )
+		} elseif ($permission_id <= 10 )
 		{
 			if ($user->company_id != $company_id)
 			{
@@ -101,8 +103,9 @@ class UsersController extends AppController
 		}
 
         $this->set('user', $user);
+        
 		$this->set('company_name', $company_name);
-		$this->set('permissionLevel', $permissionLevel);
+		$this->set('permissionLevel', $permission_id);
     }
 
     /**
@@ -138,7 +141,8 @@ class UsersController extends AppController
         $companies = $this->Users->Companies->find('list', ['limit' => 200])->where(['id >=' => $company_id]);
         $permissions = $this->Users->Permissions->find('list', ['limit' => 200])->where(['id >=' => $permission_id]);
         $this->set(compact('user', 'companies', 'permissions'));
-		$this->set('company_id', $company_id);
+
+        $this->set('company_id', $company_id);
 		$this->set('company_name', $company_name);
 		$this->set('permission_id', $permission_id);
 		
@@ -202,6 +206,7 @@ class UsersController extends AppController
 		}
 		$permissions = $this->Users->Permissions->find('list', ['limit' => 200])->where(['id >=' => $adminPermission_id]);
         $this->set(compact('user', 'companies', 'permissions'));
+        
 		$this->set('company_name', $company_name);
 		$this->set('permissionLevel', $adminPermission_id);
     }

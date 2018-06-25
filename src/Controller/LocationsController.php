@@ -37,6 +37,7 @@ class LocationsController extends AppController
 		} 
 
         $this->set(compact('locations'));
+
 		$this->set("permissionLevel", $permission_id);
     }
 
@@ -53,16 +54,16 @@ class LocationsController extends AppController
 		
 		$company_id = $this->Auth->user('company_id');
 		
-		$permissionLevel = $this->Auth->user('permission_id');
+		$permission_id = $this->Auth->user('permission_id');
 
         $location = $this->Locations->get($id, [
             'contain' => ['States', 'Countries', 'Conferences', 'LocationFloorplans', 'LocationRoomNames', 'Companies']
         ]);
 
-		if ($permissionLevel == 0 )
+		if ($permission_id == 0 )
 		{
 
-		} elseif ($permissionLevel <= 20 )
+		} elseif (permission_id <= 20 )
 		{
 			if ($location->company_id != $company_id)
 			{
@@ -82,7 +83,8 @@ class LocationsController extends AppController
 		}
 
 		$this->set('location', $location);
-		$this->set('permissionLevel', $permissionLevel);
+
+		$this->set('permissionLevel', $permission_id);
     }
 
     /**
@@ -93,17 +95,17 @@ class LocationsController extends AppController
     public function add()
     {
         $company_id = $this->Auth->user('company_id');
-		$permissionLevel = $this->Auth->user('permission_id');
+		$permission_id = $this->Auth->user('permission_id');
 
-		if ($permissionLevel == 0 )
+		if ($permission_id == 0 )
 		{
 		}
-		elseif ($permissionLevel <= 10 )
+		elseif ($permission_id <= 10 )
 		{
 		}
 		else
 		{
-			if ($permissionLevel <= 20)
+			if ($permission_id <= 20)
 			{
 				$location = null;
 				$this->Flash->error(__('You do not have permissions to add a location.'));
@@ -127,7 +129,7 @@ class LocationsController extends AppController
         $this->set(compact('location', 'states', 'countries', 'companies'));
 		
 		$this->set('company_id', $company_id);
-		$this->set('permissionLevel', $permissionLevel);
+		$this->set('permissionLevel', $permission_id);
 	}
 
     /**
@@ -140,16 +142,16 @@ class LocationsController extends AppController
     public function edit($id = null)
     {
         $company_id = $this->Auth->user('company_id');
- 		$permissionLevel = $this->Auth->user('permission_id');
+ 		permission_id = $this->Auth->user('permission_id');
 
 		$location = $this->Locations->get($id, [
             'contain' => []
         ]);
 		
-		if ($permissionLevel == 0 )
+		if ($permission_id == 0 )
 		{
 
-		} elseif ($permissionLevel <= 10 )
+		} elseif ($permission_id <= 10 )
 		{
 			if ($location->company_id != $company_id)
 			{
@@ -160,7 +162,7 @@ class LocationsController extends AppController
 		}
 		else
 		{
-			if ($permissionLevel <= 20)
+			if ($permission_id <= 20)
 			{
 				$location = null;
 				$this->Flash->error(__('You do not have permissions to edit a location.'));
@@ -181,8 +183,9 @@ class LocationsController extends AppController
         $countries = $this->Locations->Countries->find('list', ['limit' => 200]);
 		$companies = $this->Locations->Companies->find('list', ['limit' => 200])->where(['id =' => $company_id]);
         $this->set(compact('location', 'states', 'countries', 'companies'));
-		$this->set('company_id', $company_id);
-		$this->set('permissionLevel', $permissionLevel);
+
+        $this->set('company_id', $company_id);
+		$this->set('permissionLevel', $permission_id);
     }
 
     /**

@@ -42,10 +42,10 @@
         <tbody>
             <?php foreach ($locationRoomNames as $locationRoomName): ?>
             <tr>
-                <td><?= $locationRoomName->has('location') ? $this->Html->link($locationRoomName->location->location_name, ['controller' => 'Locations', 'action' => 'view', $locationRoomName->location->id]) : '' ?></td>
+                <td><?= h($locationRoomName->has('location') ? $locationRoomName->location->location_name : '') ?></td>
                 <td><?= h($locationRoomName->room_name) ?></td>
                 <td><?= h($locationRoomName->nickname) ?></td>
-                <td><?= h($locationRoomName->is_active) ?></td>
+                <td><?= h($locationRoomName->is_active == 1 ? 'yes':'no') ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $locationRoomName->id]) ?>
 <?php
