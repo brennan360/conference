@@ -68,6 +68,23 @@ class SpeakersController extends AppController
 		$permission_id = $this->Auth->user('permission_id');
 
         $speaker = $this->Speakers->newEntity();
+ 
+		if ($permission_id == 0 )
+		{
+		}
+		elseif ($permission_id <= 10 )
+		{
+		}
+		else
+		{
+			if ($permission_id <= 20)
+			{
+				$location = null;
+				$this->Flash->error(__('You do not have permissions to add a location.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+
         if ($this->request->is('post')) {
             $speaker = $this->Speakers->patchEntity($speaker, $this->request->getData());
             if ($this->Speakers->save($speaker)) {
@@ -99,6 +116,29 @@ class SpeakersController extends AppController
        $speaker = $this->Speakers->get($id, [
             'contain' => []
         ]);
+
+		if ($permission_id == 0 )
+		{
+
+		} elseif ($permission_id <= 10 )
+		{
+			if ($speaker->company_id != $company_id)
+			{
+				$location = null;
+				$this->Flash->error(__('That speaker is not associated with your company.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($permission_id <= 20)
+			{
+				$location = null;
+				$this->Flash->error(__('You do not have permissions to edit a speaker.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $speaker = $this->Speakers->patchEntity($speaker, $this->request->getData());
             if ($this->Speakers->save($speaker)) {

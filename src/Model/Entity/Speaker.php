@@ -47,4 +47,11 @@ class Speaker extends Entity
         'modified' => true,
         'speaker_type' => true
     ];
+
+    protected function _getFullName()
+    {
+        return
+            $this->_properties['first_name'] . ' ' . $this->_properties['last_name'];
+    }
+
 }

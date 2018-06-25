@@ -36,9 +36,8 @@ class SpeakersTable extends Table
         parent::initialize($config);
 
         $this->setTable('speakers');
-        $this->setDisplayField('id');
+        $this->setDisplayField('full_name');
         $this->setPrimaryKey('id');
-
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('SpeakerTypes', [

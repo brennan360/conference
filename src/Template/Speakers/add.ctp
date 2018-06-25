@@ -19,8 +19,10 @@
         <?php
             echo $this->Form->control('first_name');
             echo $this->Form->control('last_name');
-            echo $this->Form->control('speaker_image');
         ?>
+        <div class="input text required">
+            <label for="speaker-image">Speaker Image</label>
+        </div>
         <div class="container" >
 			
             <input type="file" name="file" id="file">
@@ -29,18 +31,17 @@
             <div class="upload-area"  id="uploadfile">
                 <h1>Drag and Drop file here<br/>Or<br/>Click to select file</h1>
             </div>
-        </div
+        </div><br />
         <?php
             echo $this->Form->control('speaker_type_id', ['options' => $speakerTypes]);
             echo $this->Form->control('bio');
             echo $this->Form->control('areas_of_expertise');
-            echo $this->Form->control('private_read_and_critique_participant');
             echo $this->Form->control('speaker_website');
+            echo $this->Form->control('private_read_and_critique_participant');
             echo $this->Form->control('is_active');
             echo $this->Form->hidden('speaker_image');
-            echo $this->Form->control('is_active');
             echo $this->Form->hidden('company_id', ['value' => $company_id ]);
-            echo $this->Form->hidden('controller', ['value' => 'speakers' ]);
+            echo $this->Form->hidden('controller', ['value' => 'speaker' ]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

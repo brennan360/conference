@@ -142,7 +142,7 @@ class LocationsController extends AppController
     public function edit($id = null)
     {
         $company_id = $this->Auth->user('company_id');
- 		permission_id = $this->Auth->user('permission_id');
+ 		$permission_id = $this->Auth->user('permission_id');
 
 		$location = $this->Locations->get($id, [
             'contain' => []

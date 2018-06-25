@@ -7,8 +7,15 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Speaker'), ['action' => 'add']) ?></li>
         <li><hr></li>
+<?php
+	}
+?>
         <li><?= $this->Html->link(__('List Speaker Types'), ['controller' => 'SpeakerTypes', 'action' => 'index']) ?></li>
     </ul>
 </nav>
@@ -38,8 +45,15 @@
 
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $speaker->id]) ?>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $speaker->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $speaker->id], ['confirm' => __('Are you sure you want to delete # {0}?', $speaker->id)]) ?>
+<?php
+	}
+?>
                 </td>
             </tr>
             <?php endforeach; ?>

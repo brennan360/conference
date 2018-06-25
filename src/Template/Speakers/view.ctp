@@ -16,7 +16,7 @@
     </ul>
 </nav>
 <div class="speakers view large-9 medium-8 columns content">
-    <h3><?= h($speaker->id) ?></h3>
+    <h3><?= h($speaker->full_name) ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('First Name') ?></th>
