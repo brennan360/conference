@@ -24,9 +24,16 @@ class SpeakersController extends AppController
 		$permission_id = $this->Auth->user('permission_id');
 
         $this->paginate = [
-            'contain' => ['SpeakerTypes']
+            'contain' => ['SpeakerTypes','Companies']
         ];
-        $speakers = $this->paginate($this->Speakers);
+		if ($permission_id == '0')
+		{
+        	$speakers = $this->paginate($this->Speakers);
+		} 
+		else
+		{
+        	$speakers = $this->paginate($this->Speakers->findByCompanyId($company_id));
+		} 
 
         $this->set(compact('speakers'));
  
@@ -49,8 +56,30 @@ class SpeakersController extends AppController
 		$permission_id = $this->Auth->user('permission_id');
 
        $speaker = $this->Speakers->get($id, [
-            'contain' => ['SpeakerTypes']
+            'contain' => ['SpeakerTypes','Companies']
         ]);
+
+		if ($permission_id == 0 )
+		{
+
+		} elseif ($permission_id <= 20 )
+		{
+			if ($speaker->company_id != $company_id)
+			{
+				$speaker = null;
+				$this->Flash->error(__('That speaker is not associated with your company.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($thisUserId != $id)
+			{
+				$speaker = null;
+				$this->Flash->error(__('You are not authorized to view that speaker.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
 
         $this->set('speaker', $speaker);
 
@@ -80,7 +109,7 @@ class SpeakersController extends AppController
 			if ($permission_id <= 20)
 			{
 				$location = null;
-				$this->Flash->error(__('You do not have permissions to add a location.'));
+				$this->Flash->error(__('You do not have permissions to add a speaker.'));
 				return $this->redirect(['action' => 'index']);
 			}
 		}
@@ -149,7 +178,8 @@ class SpeakersController extends AppController
             $this->Flash->error(__('The speaker could not be saved. Please, try again.'));
         }
         $speakerTypes = $this->Speakers->SpeakerTypes->find('list', ['limit' => 200]);
-        $this->set(compact('speaker', 'speakerTypes'));
+        $companies = $this->Speakers->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('speaker', 'speakerTypes', 'companies'));
 
         $this->set('company_id', $company_id);
 		$this->set('permissionLevel', $permission_id);

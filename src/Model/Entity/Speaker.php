@@ -42,6 +42,7 @@ class Speaker extends Entity
         'areas_of_expertise' => true,
         'private_read_and_critique_participant' => true,
         'speaker_website' => true,
+        'company_id' => true,
         'is_active' => true,
         'created' => true,
         'modified' => true,

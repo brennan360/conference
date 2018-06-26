@@ -6,11 +6,25 @@
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Edit Speaker'), ['action' => 'edit', $speaker->id]) ?> </li>
         <li><?= $this->Form->postLink(__('Delete Speaker'), ['action' => 'delete', $speaker->id], ['confirm' => __('Are you sure you want to delete # {0}?', $speaker->id)]) ?> </li>
+<?php
+	}
+?>
         <li><?= $this->Html->link(__('List Speakers'), ['action' => 'index']) ?> </li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Speaker'), ['action' => 'add']) ?> </li>
+<?php
+	}
+?>
         <li><hr></li>
         <li><?= $this->Html->link(__('List Speaker Types'), ['controller' => 'SpeakerTypes', 'action' => 'index']) ?> </li>
     </ul>
@@ -43,12 +57,8 @@
             <td><?= $this->Number->format($speaker->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($speaker->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($speaker->modified) ?></td>
+            <th scope="row"><?= __('Company') ?></th>
+            <td><?= h($speaker->company->company_name) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Private Read And Critique Participant') ?></th>
@@ -57,6 +67,14 @@
         <tr>
             <th scope="row"><?= __('Is Active') ?></th>
             <td><?= $speaker->is_active ? __('Yes') : __('No'); ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Created') ?></th>
+            <td><?= h($speaker->created) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Modified') ?></th>
+            <td><?= h($speaker->modified) ?></td>
         </tr>
     </table>
     <div class="row">

@@ -63,7 +63,7 @@ class LocationsController extends AppController
 		if ($permission_id == 0 )
 		{
 
-		} elseif (permission_id <= 20 )
+		} elseif ($permission_id <= 20 )
 		{
 			if ($location->company_id != $company_id)
 			{

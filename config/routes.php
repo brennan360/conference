@@ -89,6 +89,3 @@ Router::prefix('admin', function ($routes) {
 	// And have the prefix => admin route element added.
 	$routes->fallbacks('DashedRoute');
 }); 
-
-Router::connect('/admin/speakers/*',
-array('controller' => 'speakers'));

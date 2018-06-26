@@ -44,6 +44,10 @@ class SpeakersTable extends Table
             'foreignKey' => 'speaker_type_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Companies', [
+            'foreignKey' => 'company_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -84,7 +88,7 @@ class SpeakersTable extends Table
         $validator
             ->scalar('areas_of_expertise')
             ->requirePresence('areas_of_expertise', 'create')
-            ->notEmpty('areas_of_expertise');
+            ->allowEmpty('areas_of_expertise');
 
         $validator
             ->boolean('private_read_and_critique_participant')
@@ -114,6 +118,7 @@ class SpeakersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['speaker_type_id'], 'SpeakerTypes'));
+        $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;
     }
