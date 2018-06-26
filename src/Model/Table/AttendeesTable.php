@@ -7,22 +7,23 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Speakers Model
+ * Attendees Model
  *
- * @property \App\Model\Table\SpeakerTypesTable|\Cake\ORM\Association\BelongsTo $SpeakerTypes
+ * @property \App\Model\Table\AttendeeTypesTable|\Cake\ORM\Association\BelongsTo $AttendeeTypes
+ * @property \App\Model\Table\CompaniesTable|\Cake\ORM\Association\BelongsTo $Companies
  *
- * @method \App\Model\Entity\Speaker get($primaryKey, $options = [])
- * @method \App\Model\Entity\Speaker newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Speaker[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Speaker|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Speaker|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Speaker patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Speaker[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Speaker findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Attendee get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Attendee newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Attendee[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Attendee|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Attendee|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Attendee patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Attendee[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Attendee findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class SpeakersTable extends Table
+class AttendeesTable extends Table
 {
 
     /**
@@ -35,13 +36,14 @@ class SpeakersTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('speakers');
-        $this->setDisplayField('full_name');
+        $this->setTable('attendees');
+        $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('SpeakerTypes', [
-            'foreignKey' => 'speaker_type_id',
+        $this->belongsTo('AttendeeTypes', [
+            'foreignKey' => 'attendee_type_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('Companies', [
@@ -80,35 +82,18 @@ class SpeakersTable extends Table
             ->notEmpty('last_name');
 
         $validator
-            ->scalar('speaker_image')
-            ->maxLength('speaker_image', 255)
-            ->requirePresence('speaker_image', 'create')
-            ->notEmpty('speaker_image');
-
-        $validator
-            ->scalar('bio')
-            ->requirePresence('bio', 'create')
-            ->notEmpty('bio');
-
-        $validator
-            ->scalar('areas_of_expertise')
-            ->requirePresence('areas_of_expertise', 'create')
-            ->allowEmpty('areas_of_expertise');
-
-        $validator
-            ->boolean('private_read_and_critique_participant')
-            ->requirePresence('private_read_and_critique_participant', 'create')
-            ->notEmpty('private_read_and_critique_participant');
-
-        $validator
-            ->scalar('speaker_website')
-            ->maxLength('speaker_website', 255)
-            ->allowEmpty('speaker_website');
+            ->scalar('attendee_website')
+            ->maxLength('attendee_website', 255)
+            ->allowEmpty('attendee_website');
 
         $validator
             ->boolean('is_active')
             ->requirePresence('is_active', 'create')
             ->notEmpty('is_active');
+
+        $validator
+            ->scalar('notes')
+            ->allowEmpty('notes');
 
         return $validator;
     }
@@ -122,7 +107,7 @@ class SpeakersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['speaker_type_id'], 'SpeakerTypes'));
+        $rules->add($rules->existsIn(['attendee_type_id'], 'AttendeeTypes'));
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;

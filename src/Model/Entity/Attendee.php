@@ -4,24 +4,24 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Speaker Entity
+ * Attendee Entity
  *
  * @property int $id
  * @property string $first_name
+ * @property string $middle_name
  * @property string $last_name
- * @property string $speaker_image
- * @property int $speaker_type_id
- * @property string $bio
- * @property string $areas_of_expertise
- * @property bool $private_read_and_critique_participant
- * @property string $speaker_website
+ * @property int $attendee_type_id
+ * @property string $attendee_website
+ * @property int $company_id
  * @property bool $is_active
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
+ * @property string $notes
  *
- * @property \App\Model\Entity\SpeakerType $speaker_type
+ * @property \App\Model\Entity\AttendeeType $attendee_type
+ * @property \App\Model\Entity\Company $company
  */
-class Speaker extends Entity
+class Attendee extends Entity
 {
 
     /**
@@ -37,23 +37,14 @@ class Speaker extends Entity
         'first_name' => true,
         'middle_name' => true,
         'last_name' => true,
-        'speaker_image' => true,
-        'speaker_type_id' => true,
-        'bio' => true,
-        'areas_of_expertise' => true,
-        'private_read_and_critique_participant' => true,
-        'speaker_website' => true,
+        'attendee_type_id' => true,
+        'attendee_website' => true,
         'company_id' => true,
         'is_active' => true,
         'created' => true,
         'modified' => true,
-        'speaker_type' => true
+        'notes' => true,
+        'attendee_type' => true,
+        'company' => true
     ];
-
-    protected function _getFullName()
-    {
-        return
-            preg_replace("/ {2,}/", " ", $this->_properties['first_name'] . ' ' . $this->_properties['middle_name'] . ' ' . $this->_properties['last_name']);
-    }
-
 }

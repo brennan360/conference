@@ -9,8 +9,8 @@
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Speaker Types'), ['action' => 'index']) ?></li>
         <li><hr></li>
-        <li><?= $this->Html->link(__('List Speakers'), ['controller' => '/speakers', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Speaker'), ['controller' => '/speakers', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Speakers'), 'speakers/index') ?></li>
+        <li><?= $this->Html->link(__('New Speaker'), '/speakers/add') ?></li>
     </ul>
 </nav>
 <div class="speakerTypes form large-9 medium-8 columns content">

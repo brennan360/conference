@@ -32,7 +32,11 @@
         <?php
             echo $this->Form->control('first_name');
             echo $this->Form->control('last_name');
-            
+            if ($permissionLevel == 0) {
+                echo $this->Form->control('company_id', ['options' => $companies]);
+            } else {
+               echo $this->Form->hidden('company_id', ['value' => $company_id]); 
+            }
         ?>
             <div class="input text required">
                 <label for="speaker-image">Speaker Image</label>
@@ -53,11 +57,6 @@
             echo $this->Form->control('bio');
             echo $this->Form->control('areas_of_expertise');
             echo $this->Form->control('speaker_website');
-            if ($permissionLevel == 0) {
-                echo $this->Form->control('company_id', ['options' => $companies]);
-            } else {
-               echo $this->Form->hidden('company_id', ['value' => $company_id]); 
-            }
             echo $this->Form->control('private_read_and_critique_participant');
             echo $this->Form->control('is_active');
             echo $this->Form->hidden('speaker_image');

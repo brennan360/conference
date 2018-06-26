@@ -24,9 +24,8 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('speaker_image') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('full_name') ?></th>
+                <th scope="col"><?= __('Speaker Image') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('speaker_type_id') ?></th>
 <?php
 	if ($permissionLevel == 0)
@@ -36,7 +35,7 @@
 <?php
 	}
 ?>
-                <th scope="col"><?= $this->Paginator->sort('private_read_and_critique_participant') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('private_read_and_critique') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('is_active') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -45,8 +44,7 @@
             <?php foreach ($speakers as $speaker): ?>
             
             <tr>
-                <td><?= h($speaker->first_name) ?></td>
-                <td><?= h($speaker->last_name) ?></td>
+                <td><?= h($speaker->full_name) ?></td>
                 <td><?php echo $this->Html->image($speaker->speaker_image, array('style' => 'max-height:50px;','alt'=>$speaker->first_name . ' ' . $speaker->last_name)); ?></td>
                 <td><?= h($speaker->has('speaker_type') ? $speaker->speaker_type->description : '') ?></td>
 <?php

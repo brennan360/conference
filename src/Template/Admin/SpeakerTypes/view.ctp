@@ -12,12 +12,12 @@
         <li><?= $this->Html->link(__('List Speaker Types'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Speaker Type'), ['action' => 'add']) ?> </li>
         <li><hr></li>
-        <li><?= $this->Html->link(__('List Speakers'), ['controller' => 'Speakers', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Speaker'), ['controller' => 'Speakers', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Speakers'), '/speakers/index') ?> </li>
+        <li><?= $this->Html->link(__('New Speaker'), '/speakers/add') ?> </li>
     </ul>
 </nav>
 <div class="speakerTypes view large-9 medium-8 columns content">
-    <h3><?= h($speakerType->id) ?></h3>
+    <h3><?= h($speakerType->description) ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Description') ?></th>
@@ -41,34 +41,18 @@
         <?php if (!empty($speakerType->speakers)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('First Name') ?></th>
                 <th scope="col"><?= __('Last Name') ?></th>
                 <th scope="col"><?= __('Author Image') ?></th>
-                <th scope="col"><?= __('Speaker Type Id') ?></th>
-                <th scope="col"><?= __('Bio') ?></th>
-                <th scope="col"><?= __('Areas Of Expertise') ?></th>
-                <th scope="col"><?= __('Private Read And Critique Participant') ?></th>
-                <th scope="col"><?= __('Speaker Website') ?></th>
                 <th scope="col"><?= __('Is Active') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($speakerType->speakers as $speakers): ?>
             <tr>
-                <td><?= h($speakers->id) ?></td>
                 <td><?= h($speakers->first_name) ?></td>
                 <td><?= h($speakers->last_name) ?></td>
                 <td><?= h($speakers->speaker_image) ?></td>
-                <td><?= h($speakers->speaker_type_id) ?></td>
-                <td><?= h($speakers->bio) ?></td>
-                <td><?= h($speakers->areas_of_expertise) ?></td>
-                <td><?= h($speakers->private_read_and_critique_participant) ?></td>
-                <td><?= h($speakers->speaker_website) ?></td>
-                <td><?= h($speakers->is_active) ?></td>
-                <td><?= h($speakers->created) ?></td>
-                <td><?= h($speakers->modified) ?></td>
+                <td><?= h($speakers->is_active == 1 ? 'yes':'no') ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Speakers', 'action' => 'view', $speakers->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Speakers', 'action' => 'edit', $speakers->id]) ?>

@@ -124,7 +124,8 @@ class SpeakersController extends AppController
             $this->Flash->error(__('The speaker could not be saved. Please, try again.'));
         }
         $speakerTypes = $this->Speakers->SpeakerTypes->find('list', ['limit' => 200]);
-        $this->set(compact('speaker', 'speakerTypes'));
+        $companies = $this->Speakers->Companies->find('list', ['limit' => 200]);
+        $this->set(compact('speaker', 'speakerTypes', 'companies'));
 		
 		$this->set('company_id', $company_id);
 		$this->set('permissionLevel', $permission_id);
