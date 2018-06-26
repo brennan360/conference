@@ -20,12 +20,25 @@ class AttendeesController extends AppController
      */
     public function index()
     {
+        $company_id = $this->Auth->user('company_id');
+        $permission_id = $this->Auth->user('permission_id');
+
         $this->paginate = [
             'contain' => ['AttendeeTypes', 'Companies']
         ];
-        $attendees = $this->paginate($this->Attendees);
+
+		if ($permission_id == '0')
+		{
+        	$attendees = $this->paginate($this->Attendees);
+		} 
+		else
+		{
+        	$attendees = $this->paginate($this->Attendees->findByCompanyId($company_id));
+		} 
 
         $this->set(compact('attendees'));
+
+        $this->set("permissionLevel", $permission_id);
     }
 
     /**
@@ -37,11 +50,41 @@ class AttendeesController extends AppController
      */
     public function view($id = null)
     {
+ 		$thisUserId = $this->Auth->user('id');
+		
+		$company_id = $this->Auth->user('company_id');
+		
+		$permission_id = $this->Auth->user('permission_id');
+
         $attendee = $this->Attendees->get($id, [
             'contain' => ['AttendeeTypes', 'Companies']
         ]);
 
+		if ($permission_id == 0 )
+		{
+
+		} elseif ($permission_id <= 20 )
+		{
+			if ($attendee->company_id != $company_id)
+			{
+				$attendee = null;
+				$this->Flash->error(__('That attendee is not associated with your company.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($thisUserId != $id)
+			{
+				$attendee = null;
+				$this->Flash->error(__('You are not authorized to view that attendee.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+        
         $this->set('attendee', $attendee);
+
+		$this->set('permissionLevel', $permission_id);
     }
 
     /**
@@ -51,7 +94,27 @@ class AttendeesController extends AppController
      */
     public function add()
     {
+        $company_id = $this->Auth->user('company_id');
+		$permission_id = $this->Auth->user('permission_id');
+
         $attendee = $this->Attendees->newEntity();
+
+		if ($permission_id == 0)
+		{
+		}
+		elseif ($permission_id <= 10)
+		{
+		}
+		else
+		{
+			if ($permission_id <= 20)
+			{
+				$attendee = null;
+				$this->Flash->error(__('You do not have permissions to add an attendee.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+
         if ($this->request->is('post')) {
             $attendee = $this->Attendees->patchEntity($attendee, $this->request->getData());
             if ($this->Attendees->save($attendee)) {
@@ -62,9 +125,18 @@ class AttendeesController extends AppController
             $this->Flash->error(__('The attendee could not be saved. Please, try again.'));
         }
         $attendeeTypes = $this->Attendees->AttendeeTypes->find('list', ['limit' => 200]);
-        $companies = $this->Attendees->Companies->find('list', ['limit' => 200]);
+        if ($permission_id == 0)
+        {
+            $companies = $this->Attendees->Companies->find('list', ['limit' => 200]);
+        }
+        else
+        {
+            $companies = $this->Attendees->Companies->find('list', ['limit' => 200])->where(['id =' => $company_id]);
+        }
         $this->set(compact('attendee', 'attendeeTypes', 'companies'));
-    }
+		
+		$this->set('company_id', $company_id);
+		$this->set('permissionLevel', $permission_id);    }
 
     /**
      * Edit method
@@ -75,9 +147,35 @@ class AttendeesController extends AppController
      */
     public function edit($id = null)
     {
+        $company_id = $this->Auth->user('company_id');
+ 		$permission_id = $this->Auth->user('permission_id');
+
         $attendee = $this->Attendees->get($id, [
             'contain' => []
         ]);
+
+		if ($permission_id == 0 )
+		{
+
+		} elseif ($permission_id <= 10 )
+		{
+			if ($attendee->company_id != $company_id)
+			{
+				$attendee = null;
+				$this->Flash->error(__('That attendee is not associated with your company.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+		else
+		{
+			if ($permission_id <= 20)
+			{
+				$attendee = null;
+				$this->Flash->error(__('You do not have permissions to edit an attendee.'));
+				return $this->redirect(['action' => 'index']);
+			}
+		}
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $attendee = $this->Attendees->patchEntity($attendee, $this->request->getData());
             if ($this->Attendees->save($attendee)) {
@@ -87,9 +185,20 @@ class AttendeesController extends AppController
             }
             $this->Flash->error(__('The attendee could not be saved. Please, try again.'));
         }
+
         $attendeeTypes = $this->Attendees->AttendeeTypes->find('list', ['limit' => 200]);
-        $companies = $this->Attendees->Companies->find('list', ['limit' => 200]);
+       if ($permission_id == 0)
+        {
+            $companies = $this->Attendees->Companies->find('list', ['limit' => 200]);
+        }
+        else
+        {
+            $companies = $this->Attendees->Companies->find('list', ['limit' => 200])->where(['id =' => $company_id]);
+        }
         $this->set(compact('attendee', 'attendeeTypes', 'companies'));
+
+        $this->set('company_id', $company_id);
+		$this->set('permissionLevel', $permission_id);
     }
 
     /**

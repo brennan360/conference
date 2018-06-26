@@ -7,10 +7,24 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('Edit Attendee'), ['action' => 'edit', $attendee->id]) ?> </li>
         <li><?= $this->Form->postLink(__('Delete Attendee'), ['action' => 'delete', $attendee->id], ['confirm' => __('Are you sure you want to delete # {0}?', $attendee->id)]) ?> </li>
+<?php
+    }
+?>
         <li><?= $this->Html->link(__('List Attendees'), ['action' => 'index']) ?> </li>
+<?php
+	if ($permissionLevel <= 10)
+	{
+?>
         <li><?= $this->Html->link(__('New Attendee'), ['action' => 'add']) ?> </li>
+<?php
+    }
+?>
         <li><hr></li>
         <li><?= $this->Html->link(__('List Attendee Types'), ['controller' => 'AttendeeTypes', 'action' => 'index']) ?> </li>
     </ul>

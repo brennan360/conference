@@ -22,7 +22,14 @@
             echo $this->Form->control('last_name');
             echo $this->Form->control('attendee_type_id', ['options' => $attendeeTypes]);
             echo $this->Form->control('attendee_website');
-            echo $this->Form->control('company_id', ['options' => $companies]);
+            if ($permissionLevel == 0)
+            {
+                echo $this->Form->control('company_id', ['options' => $companies]);
+            }
+            else 
+            {
+                echo $this->Form->control('company_id', ['value' => $company_id]);
+            }
             echo $this->Form->control('is_active');
             echo $this->Form->control('notes');
         ?>
