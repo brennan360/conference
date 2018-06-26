@@ -14,10 +14,8 @@
             )
         ?></li>
         <li><?= $this->Html->link(__('List Attendees'), ['action' => 'index']) ?></li>
+        <li><hr></li>
         <li><?= $this->Html->link(__('List Attendee Types'), ['controller' => 'AttendeeTypes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Attendee Type'), ['controller' => 'AttendeeTypes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Companies'), ['controller' => 'Companies', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Company'), ['controller' => 'Companies', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="attendees form large-9 medium-8 columns content">

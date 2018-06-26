@@ -11,12 +11,13 @@
         <li><?= $this->Form->postLink(__('Delete Attendee Type'), ['action' => 'delete', $attendeeType->id], ['confirm' => __('Are you sure you want to delete # {0}?', $attendeeType->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Attendee Types'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Attendee Type'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Attendees'), ['controller' => 'Attendees', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Attendee'), ['controller' => 'Attendees', 'action' => 'add']) ?> </li>
+        <li><hr></li>
+        <li><?= $this->Html->link(__('List Attendees'), '/attendees/index') ?> </li>
+        <li><?= $this->Html->link(__('New Attendee'), '/attendees/add') ?> </li>
     </ul>
 </nav>
 <div class="attendeeTypes view large-9 medium-8 columns content">
-    <h3><?= h($attendeeType->id) ?></h3>
+    <h3><?= h($attendeeType->description) ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Description') ?></th>

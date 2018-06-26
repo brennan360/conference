@@ -47,4 +47,10 @@ class Attendee extends Entity
         'attendee_type' => true,
         'company' => true
     ];
+    
+    protected function _getFullName()
+    {
+        return
+            preg_replace("/ {2,}/", " ", $this->_properties['first_name'] . ' ' . $this->_properties['middle_name'] . ' ' . $this->_properties['last_name']);
+    }
 }

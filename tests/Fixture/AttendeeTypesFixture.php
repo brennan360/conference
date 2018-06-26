@@ -42,8 +42,8 @@ class AttendeeTypesFixture extends TestFixture
             [
                 'id' => 1,
                 'description' => 'Lorem ipsum dolor sit amet',
-                'created' => '2018-06-26 18:42:45',
-                'modified' => '2018-06-26 18:42:45'
+                'created' => '2018-06-26 18:54:29',
+                'modified' => '2018-06-26 18:54:29'
             ],
         ];
         parent::init();

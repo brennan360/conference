@@ -7,21 +7,16 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $attendeeType->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $attendeeType->id)]
-            )
-        ?></li>
         <li><?= $this->Html->link(__('List Attendee Types'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Attendees'), ['controller' => 'Attendees', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Attendee'), ['controller' => 'Attendees', 'action' => 'add']) ?></li>
+        <li><hr></li>
+        <li><?= $this->Html->link(__('List Attendees'), '/attendees/index') ?></li>
+        <li><?= $this->Html->link(__('New Attendee'), '/attendees/add') ?></li>
     </ul>
 </nav>
 <div class="attendeeTypes form large-9 medium-8 columns content">
     <?= $this->Form->create($attendeeType) ?>
     <fieldset>
-        <legend><?= __('Edit Attendee Type') ?></legend>
+        <legend><?= __('Add Attendee Type') ?></legend>
         <?php
             echo $this->Form->control('description');
         ?>

@@ -8,8 +8,9 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Attendee Type'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Attendees'), ['controller' => 'Attendees', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Attendee'), ['controller' => 'Attendees', 'action' => 'add']) ?></li>
+        <li><hr></li>
+        <li><?= $this->Html->link(__('List Attendees'), '/attendees/index') ?></li>
+        <li><?= $this->Html->link(__('New Attendee'), '/attendees/add') ?></li>
     </ul>
 </nav>
 <div class="attendeeTypes index large-9 medium-8 columns content">

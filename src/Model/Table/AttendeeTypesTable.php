@@ -36,7 +36,7 @@ class AttendeeTypesTable extends Table
         parent::initialize($config);
 
         $this->setTable('attendee_types');
-        $this->setDisplayField('id');
+        $this->setDisplayField('description');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');

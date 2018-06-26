@@ -11,14 +11,12 @@
         <li><?= $this->Form->postLink(__('Delete Attendee'), ['action' => 'delete', $attendee->id], ['confirm' => __('Are you sure you want to delete # {0}?', $attendee->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Attendees'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Attendee'), ['action' => 'add']) ?> </li>
+        <li><hr></li>
         <li><?= $this->Html->link(__('List Attendee Types'), ['controller' => 'AttendeeTypes', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Attendee Type'), ['controller' => 'AttendeeTypes', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Companies'), ['controller' => 'Companies', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Company'), ['controller' => 'Companies', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="attendees view large-9 medium-8 columns content">
-    <h3><?= h($attendee->id) ?></h3>
+    <h3><?= h($attendee->full_name) ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('First Name') ?></th>
@@ -34,7 +32,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Attendee Type') ?></th>
-            <td><?= $attendee->has('attendee_type') ? $this->Html->link($attendee->attendee_type->id, ['controller' => 'AttendeeTypes', 'action' => 'view', $attendee->attendee_type->id]) : '' ?></td>
+            <td><?= h( $attendee->has('attendee_type') ? $attendee->attendee_type->description : '') ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Attendee Website') ?></th>
@@ -42,7 +40,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Company') ?></th>
-            <td><?= $attendee->has('company') ? $this->Html->link($attendee->company->company_name, ['controller' => 'Companies', 'action' => 'view', $attendee->company->id]) : '' ?></td>
+            <td><?= h($attendee->has('company') ? $attendee->company->company_name : '') ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
