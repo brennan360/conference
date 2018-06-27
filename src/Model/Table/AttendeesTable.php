@@ -50,6 +50,10 @@ class AttendeesTable extends Table
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('States', [
+            'foreignKey' => 'state_id',
+            'joinType' => 'LEFT'
+        ]);
     }
 
     /**
@@ -81,7 +85,37 @@ class AttendeesTable extends Table
             ->requirePresence('last_name', 'create')
             ->notEmpty('last_name');
 
+         $validator
+            ->scalar('email')
+            ->maxLength('email', 255)
+            ->allowEmpty('email');
+
+         $validator
+            ->scalar('address_line1')
+            ->maxLength('address_line1', 255)
+            ->allowEmpty('address_line1');
+
+         $validator
+            ->scalar('address_line2')
+            ->maxLength('address_line2', 255)
+            ->allowEmpty('address_line2');
+
+         $validator
+            ->scalar('city')
+            ->maxLength('city', 255)
+            ->allowEmpty('city');
+
         $validator
+            ->scalar('zip_code')
+            ->maxLength('zip_code', 10)
+            ->allowEmpty('zip_code');
+
+        $validator
+            ->scalar('phone')
+            ->maxLength('phone', 15)
+            ->allowEmpty('phone');
+
+       $validator
             ->scalar('attendee_website')
             ->maxLength('attendee_website', 255)
             ->allowEmpty('attendee_website');

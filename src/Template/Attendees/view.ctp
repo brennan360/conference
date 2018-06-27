@@ -45,8 +45,36 @@
             <td><?= h($attendee->last_name) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Email') ?></th>
+            <td><?= h($attendee->email) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Address1') ?></th>
+            <td><?= h($attendee->address_line1) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Address2') ?></th>
+            <td><?= h($attendee->address_line2) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('City') ?></th>
+            <td><?= h($attendee->city) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('State') ?></th>
+            <td><?= h($attendee->has('state') ? $attendee->state->state_name : '') ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Zip Code') ?></th>
+            <td><?= h($attendee->zip_code) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Phone') ?></th>
+            <td><?= h($attendee->phone) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Attendee Type') ?></th>
-            <td><?= h( $attendee->has('attendee_type') ? $attendee->attendee_type->description : '') ?></td>
+            <td><?= h($attendee->has('attendee_type') ? $attendee->attendee_type->description : '') ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Attendee Website') ?></th>

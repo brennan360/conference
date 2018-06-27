@@ -24,7 +24,7 @@ class AttendeesController extends AppController
         $permission_id = $this->Auth->user('permission_id');
 
         $this->paginate = [
-            'contain' => ['AttendeeTypes', 'Companies']
+            'contain' => ['AttendeeTypes', 'Companies','States']
         ];
 
 		if ($permission_id == '0')
@@ -57,7 +57,7 @@ class AttendeesController extends AppController
 		$permission_id = $this->Auth->user('permission_id');
 
         $attendee = $this->Attendees->get($id, [
-            'contain' => ['AttendeeTypes', 'Companies']
+            'contain' => ['AttendeeTypes', 'Companies','States']
         ]);
 
 		if ($permission_id == 0 )
@@ -133,7 +133,8 @@ class AttendeesController extends AppController
         {
             $companies = $this->Attendees->Companies->find('list', ['limit' => 200])->where(['id =' => $company_id]);
         }
-        $this->set(compact('attendee', 'attendeeTypes', 'companies'));
+        $states = $this->Attendees->States->find('list', ['limit' => 200]);
+        $this->set(compact('attendee', 'attendeeTypes', 'companies','states'));
 		
 		$this->set('company_id', $company_id);
 		$this->set('permissionLevel', $permission_id);    }
@@ -195,7 +196,8 @@ class AttendeesController extends AppController
         {
             $companies = $this->Attendees->Companies->find('list', ['limit' => 200])->where(['id =' => $company_id]);
         }
-        $this->set(compact('attendee', 'attendeeTypes', 'companies'));
+        $states = $this->Attendees->States->find('list', ['limit' => 200]);
+        $this->set(compact('attendee', 'attendeeTypes', 'companies', 'states'));
 
         $this->set('company_id', $company_id);
 		$this->set('permissionLevel', $permission_id);

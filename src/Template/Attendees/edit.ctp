@@ -33,6 +33,13 @@
             echo $this->Form->control('first_name');
             echo $this->Form->control('middle_name');
             echo $this->Form->control('last_name');
+            echo $this->Form->control('email');
+            echo $this->Form->control('address_line1');
+            echo $this->Form->control('address_line2');
+            echo $this->Form->control('city');
+            echo $this->Form->control('state_id', ['options' => $states, 'empty'=>true]);
+            echo $this->Form->control('zip_code');
+            echo $this->Form->control('phone');
             echo $this->Form->control('attendee_type_id', ['options' => $attendeeTypes]);
             echo $this->Form->control('attendee_website');
             echo $this->Form->control('company_id', ['options' => $companies]);
