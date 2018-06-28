@@ -40,3 +40,6 @@
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
+<div class="schedules form large-9 medium-8 columns content">
+<?php include 'grid.ctp'; ?>
+</div>
