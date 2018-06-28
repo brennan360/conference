@@ -37,7 +37,7 @@ class ConferencesTable extends Table
         parent::initialize($config);
 
         $this->setTable('conferences');
-        $this->setDisplayField('id');
+        $this->setDisplayField('conference_title');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');

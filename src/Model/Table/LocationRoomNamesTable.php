@@ -36,7 +36,7 @@ class LocationRoomNamesTable extends Table
         parent::initialize($config);
 
         $this->setTable('location_room_names');
-        $this->setDisplayField('id');
+        $this->setDisplayField('room_name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
