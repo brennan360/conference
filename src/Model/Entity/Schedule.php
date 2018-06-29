@@ -39,7 +39,8 @@ class Schedule extends Entity
      */
     protected $_accessible = [
         'company_id' => true,
-        'date_time' => true,
+        'start_date_time' => true,
+        'end_date_time' => true,
         'conference_id' => true,
         'location_id' => true,
         'room_id' => true,

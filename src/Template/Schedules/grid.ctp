@@ -3,17 +3,20 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Schedule $schedule
  */
+var_dump($schedules);
 ?>
 <style>
         div.schedule-grid {
-            width: 800px;
+            min-width: 900px;
         }
         table, tr, td {
+            
             border-spacing:0;
             padding:0;
             margin:0;
         }
         table.time-grid {
+            table-layout: fixed;
             display:table;
             min-width:100%;
             border-bottom: solid 2px black;
@@ -33,8 +36,9 @@
             border-right: solid 2px black;
         }
         tr td.time {
+            text-align:center;
             background-color:white;
-            width:80px;
+            max-width:80px;
             border-right: solid 1px gray;
             border-left: solid 2px black;
         }
@@ -66,7 +70,6 @@
         $rooms[$numRooms] = $room->id;
         $numRooms++;
     }
-            echo $numRooms;
 ?>
 <?php
     for ($i=0; $i < 24; $i++) {
@@ -77,18 +80,20 @@
                 <td class="time"><?= $time_hour;?></td>
 <?php
         for($j=0; $j < count($rooms); $j++) {
+            $id_value = str_pad($i,2,"0",STR_PAD_LEFT)."00-".$rooms[$j];
 ?>
-                <td onClick="setSchedule('<?= $i."00-".$rooms[$j]; ?>')"></td>
+                <td id='<?= $id_value; ?>' onClick="setSchedule('<?= $id_value; ?>')"><?= $id_value; ?></td>
 <?php
         }
 ?>
             </tr>
             <tr class="half-hour">
-                <td class="time"><?= $time_half; ?></td>
+                 <td class="time"><?= $time_half;?></td>
 <?php
         for($j=0; $j < count($rooms); $j++) {
+                $id_value = str_pad($i,2,"0",STR_PAD_LEFT)."30-".$rooms[$j];
 ?>
-                <td onClick="setSchedule('<?= $i."30-".$rooms[$j]; ?>')"></td>
+                <td id='<?= $id_value; ?>' onClick="setSchedule('<?= $id_value; ?>')"></td>
 <?php
         }
 ?>
@@ -101,11 +106,22 @@
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script>
-        function setSchedule($timeroom) {
-console.log($timeroom);
-            $time = $timeroom.substring(0, $timeroom.indexOf("-"));
-            $room = $timeroom.substr($timeroom.length - $timeroom.indexOf("-"));
-            alert($time + "-" + $room);
+        $('document').ready(function() {
+            var schedules = <?= json_encode($schedules); ?>;
+            var datetime, id;
+            for(var i = 0; i < schedules.length; i++){
+
+                datetime = schedules[i]['start_date_time'].split(/[- :T+]/);
+                id = "#" + datetime[3] + datetime[4] + "-" + schedules[i]['room_id'];
+console.log(id);
+                $(id).html(schedules[i]['title']);
+            }
+        });
+        function setSchedule(timeroom) {
+console.log(timeroom);
+            time = timeroom.substring(0, timeroom.indexOf("-"));
+            room = timeroom.substr(timeroom.lastIndexOf("-") + 1);
+            alert(time + "-" + room);
         }
     </script>
 </div>

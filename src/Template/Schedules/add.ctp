@@ -26,7 +26,8 @@
         <legend><?= __('Add Schedule') ?></legend>
         <?php
             echo $this->Form->control('company_id', ['options' => $companies, 'empty' => true]);
-            echo $this->Form->control('date_time', ['empty' => true]);
+            echo $this->Form->control('start_date_time');
+            echo $this->Form->control('end_date_time');
             echo $this->Form->control('conference_id', ['options' => $conferences, 'empty' => true]);
             echo $this->Form->control('location_id', ['options' => $locations, 'empty' => true]);
             echo $this->Form->control('room_id', ['options' => $locationRoomNames, 'empty' => true]);

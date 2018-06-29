@@ -75,8 +75,14 @@ class SchedulesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->dateTime('date_time')
-            ->allowEmpty('date_time');
+            ->dateTime('start_date_time')
+            ->requirePresence('start_date_time', 'create')
+            ->notEmpty('start_date_time');
+
+        $validator
+            ->dateTime('end_date_time')
+            ->requirePresence('end_date_time', 'create')
+            ->notEmpty('end_date_time');
 
         $validator
             ->scalar('genre')

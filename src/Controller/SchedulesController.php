@@ -118,17 +118,25 @@ class SchedulesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
     
-    public function grid($location_id)
+
+    public function grid($conference_id)
     {
         $company_id = $this->Auth->user('company_id');
-
+        $this->loadModel('Conferences');
+        $this->loadModel('Locations');
         $this->loadModel('LocationRoomNames');
+
+//        $this->paginate = [
+//            'contain' => ['Companies', 'Conferences', 'Locations', 'LocationRoomNames', 'Speakers']
+//        ];
+        $this->paginate = [];
+        $conferences = $this->Conferences->findByConferenceId($conference_id);
+        $conference = $this->Conferences->get($conference_id);
+        $location = $this->Locations->get($conference->location_id);
+
+        $locationRoomNames = $this->LocationRoomNames->findByLocationId($location->id);
+        $schedules = $this->paginate($this->Schedules->findByConferenceId($conference_id));
         
-        $this->paginate = [
-            'contain' => ['Companies', 'Conferences', 'Locations', 'LocationRoomNames', 'Speakers']
-        ];
-        $schedules = $this->paginate($this->Schedules);
-        $locationRoomNames = $this->LocationRoomNames->findByLocationId($location_id);
         $this->set(compact('schedules'));
         $this->set('locationRoomNames',$locationRoomNames);
 

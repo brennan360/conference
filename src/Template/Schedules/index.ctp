@@ -29,7 +29,8 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('date_time') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('start_date_time') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('end_date_time') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('conference_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('location_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('room_id') ?></th>
@@ -46,7 +47,8 @@
             <tr>
                 <td><?= $this->Number->format($schedule->id) ?></td>
                 <td><?= $schedule->has('company') ? $this->Html->link($schedule->company->company_name, ['controller' => 'Companies', 'action' => 'view', $schedule->company->id]) : '' ?></td>
-                <td><?= h($schedule->date_time) ?></td>
+                <td><?= h($schedule->start_date_time) ?></td>
+                <td><?= h($schedule->end_date_time) ?></td>
                 <td><?= $schedule->has('conference') ? $this->Html->link($schedule->conference->conference_title, ['controller' => 'Conferences', 'action' => 'view', $schedule->conference->id]) : '' ?></td>
                 <td><?= $schedule->has('location') ? $this->Html->link($schedule->location->location_name, ['controller' => 'Locations', 'action' => 'view', $schedule->location->id]) : '' ?></td>
                 <td><?= $schedule->has('location_room_name') ? $this->Html->link($schedule->location_room_name->room_name, ['controller' => 'LocationRoomNames', 'action' => 'view', $schedule->location_room_name->id]) : '' ?></td>

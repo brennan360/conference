@@ -39,8 +39,12 @@
             <td><?= $schedule->has('conference') ? $this->Html->link($schedule->conference->conference_title, ['controller' => 'Conferences', 'action' => 'view', $schedule->conference->id]) : '' ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Date Time') ?></th>
-            <td><?= h($schedule->date_time) ?></td>
+            <th scope="row"><?= __('Start Date Time') ?></th>
+            <td><?= h($schedule->start_date_time) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('End Date Time') ?></th>
+            <td><?= h($schedule->end_date_time) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Location') ?></th>
