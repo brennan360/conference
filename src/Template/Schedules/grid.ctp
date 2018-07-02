@@ -108,13 +108,14 @@ var_dump($schedules);
     <script>
         $('document').ready(function() {
             var schedules = <?= json_encode($schedules); ?>;
-            var datetime, id;
+            var datetime, id, div;
             for(var i = 0; i < schedules.length; i++){
-
+                div = '';
                 datetime = schedules[i]['start_date_time'].split(/[- :T+]/);
-                id = "#" + datetime[3] + datetime[4] + "-" + schedules[i]['room_id'];
-console.log(id);
-                $(id).html(schedules[i]['title']);
+                id = datetime[3] + datetime[4] + "-" + schedules[i]['room_id'];
+                $('body').append("<div id='d" + id + "' style='background-color:yellow; min-height:100px;'></div>");
+//                $(id).html(schedules[i]['title']);
+                
             }
         });
         function setSchedule(timeroom) {
