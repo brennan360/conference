@@ -3,11 +3,11 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Schedule $schedule
  */
-var_dump($schedules);
 ?>
 <style>
         div.schedule-grid {
             min-width: 900px;
+            postion:relative;
         }
         table, tr, td {
             
@@ -42,6 +42,10 @@ var_dump($schedules);
             border-right: solid 1px gray;
             border-left: solid 2px black;
         }
+    div.[id^="d"] {
+        min-height:100px;
+        min-width: 100px;
+    }
     </style>
 
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
@@ -103,17 +107,21 @@ var_dump($schedules);
 ?>
         </table>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script>
         $('document').ready(function() {
             var schedules = <?= json_encode($schedules); ?>;
-            var datetime, id, div;
+            var timeLocation, timeWidth, timeHeight, datetime, id, div;
             for(var i = 0; i < schedules.length; i++){
                 div = '';
                 datetime = schedules[i]['start_date_time'].split(/[- :T+]/);
                 id = datetime[3] + datetime[4] + "-" + schedules[i]['room_id'];
-                $('body').append("<div id='d" + id + "' style='background-color:yellow; min-height:100px;'></div>");
+                
+                timeLocation = $("#" + id).position();
+                timeWidth = $("#" + id).innerWidth();
+                timeHeight = Math.abs(new Date(schedules[i]['start_date_time']) - new Date(schedules[i]['end_date_time'])) / 1000/60;
+console.log("<div id='d" + id + "' style='background-color:yellow; min-height:100px; position:absolute; left:" + timeLocation.left + "px; top:" + timeLocation.left + "px;z-index:100;'></div>");
+                $('body').append("<div id='d" + id + "' style='background-color:yellow; min-height:100px; position:absolute; left:" + timeLocation.left + "px; top:" + timeLocation.top + "px;z-index:100;width:" + timeWidth + "px; height:" + timeHeight + "px;'></div>");
 //                $(id).html(schedules[i]['title']);
                 
             }
