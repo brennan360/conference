@@ -22,25 +22,29 @@
             border-bottom: solid 2px black;
         }
         tr.hour td {
+            box-sizing:border-box;
             width:100%;
             background-color: #FFc233;
-            border-top: solid 2px black;
+            border-top: solid 1px black;
             height: 30px;
-            border-right: solid 2px black;
+            border-right: solid 1px black;
+            padding: 0 10px;
         }
         tr.half-hour td {
+            box-sizing:border-box;
             width:100%;
             background-color: #FCDDA9;
             border-top: solid 1px gray;
             height: 30px;
-            border-right: solid 2px black;
+            border-right: solid 1px black;
+            padding: 0 10px;
         }
         tr td.time {
             text-align:center;
             background-color:white;
             max-width:80px;
             border-right: solid 1px gray;
-            border-left: solid 2px black;
+            border-left: solid 1px black;
         }
     div.[id^="d"] {
         min-height:100px;
@@ -120,8 +124,10 @@
                 timeLocation = $("#" + id).position();
                 timeWidth = $("#" + id).innerWidth();
                 timeHeight = Math.abs(new Date(schedules[i]['start_date_time']) - new Date(schedules[i]['end_date_time'])) / 1000/60;
-console.log("<div id='d" + id + "' style='background-color:yellow; min-height:100px; position:absolute; left:" + timeLocation.left + "px; top:" + timeLocation.left + "px;z-index:100;'></div>");
-                $('body').append("<div id='d" + id + "' style='background-color:yellow; min-height:100px; position:absolute; left:" + timeLocation.left + "px; top:" + timeLocation.top + "px;z-index:100;width:" + timeWidth + "px; height:" + timeHeight + "px;'></div>");
+                
+                $('.schedules').append("<div id='d" + id + "' style='background-color:yellow; position:absolute; left:" + (timeLocation.left + 1) + "px; top:" + (timeLocation.top + 1) + "px;z-index:100;width:" + timeWidth + "px; height:" + timeHeight + "px;'></div>");
+console.log("<p>" + schedules[i]['title'] + "</p>");
+                $("#d" + id).html("<p>" + schedules[i]['title'] + "</p>");
 //                $(id).html(schedules[i]['title']);
                 
             }
