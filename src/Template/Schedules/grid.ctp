@@ -46,9 +46,11 @@
             border-right: solid 1px gray;
             border-left: solid 1px black;
         }
-    div.[id^="d"] {
-        min-height:100px;
-        min-width: 100px;
+    div[id^="d"] {
+        overflow:hidden;
+    }
+    div[id^="d"] p {
+        font-size: 9px;
     }
     </style>
 
@@ -115,8 +117,15 @@
     <script>
         $('document').ready(function() {
             var schedules = <?= json_encode($schedules); ?>;
+            var rawSpeakers = <?= json_encode($speakers); ?>;
             var timeLocation, timeWidth, timeHeight, datetime, id, div;
-            for(var i = 0; i < schedules.length; i++){
+
+            var speakers = new Array;
+            for (var j = 0; j < rawSpeakers.length; j++) {
+               speakers[rawSpeakers[j]['id']] = rawSpeakers[j]; 
+            }
+
+            for(var i = 0; i < schedules.length; i++) {
                 div = '';
                 datetime = schedules[i]['start_date_time'].split(/[- :T+]/);
                 id = datetime[3] + datetime[4] + "-" + schedules[i]['room_id'];
@@ -126,14 +135,16 @@
                 timeHeight = Math.abs(new Date(schedules[i]['start_date_time']) - new Date(schedules[i]['end_date_time'])) / 1000/60;
                 
                 $('.schedules').append("<div id='d" + id + "' style='background-color:yellow; position:absolute; left:" + (timeLocation.left + 1) + "px; top:" + (timeLocation.top + 1) + "px;z-index:100;width:" + timeWidth + "px; height:" + timeHeight + "px;'></div>");
-console.log("<p>" + schedules[i]['title'] + "</p>");
-                $("#d" + id).html("<p>" + schedules[i]['title'] + "</p>");
-//                $(id).html(schedules[i]['title']);
                 
-            }
+                // get the speaker name
+                
+                $("#d" + id).html("<p>" + schedules[i]['title'] + "<br>" + 
+                                  "" + speakers[schedules[i]['speaker_id']]['first_name'] + " " + speakers[schedules[i]['speaker_id']]['middle_name'] + " " + speakers[schedules[i]['speaker_id']]['last_name'] + "</p>");
+                
+            } // for(var i = 0; i < schedules.length; i++)
         });
+        
         function setSchedule(timeroom) {
-console.log(timeroom);
             time = timeroom.substring(0, timeroom.indexOf("-"));
             room = timeroom.substr(timeroom.lastIndexOf("-") + 1);
             alert(time + "-" + room);

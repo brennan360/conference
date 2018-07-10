@@ -125,6 +125,7 @@ class SchedulesController extends AppController
         $this->loadModel('Conferences');
         $this->loadModel('Locations');
         $this->loadModel('LocationRoomNames');
+        $this->loadModel('Speakers');
 
 //        $this->paginate = [
 //            'contain' => ['Companies', 'Conferences', 'Locations', 'LocationRoomNames', 'Speakers']
@@ -136,9 +137,11 @@ class SchedulesController extends AppController
 
         $locationRoomNames = $this->LocationRoomNames->findByLocationId($location->id);
         $schedules = $this->paginate($this->Schedules->findByConferenceId($conference_id));
+        $speakers = $this->Speakers->findByCompanyId($conference->company_id);
         
         $this->set(compact('schedules'));
         $this->set('locationRoomNames',$locationRoomNames);
+        $this->set('speakers', $speakers);
 
     }
 }
